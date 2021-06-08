@@ -7,14 +7,18 @@
 		<title data-i18n='litw-template-title'></title>
 
 		<!-- open graph tags -->
-        <meta property="og:type" content="website" />
 		<meta property="og:site_name" content="LabintheWild" />
-		<meta property="og:title" content="LITW: Technology Perceptions" />
-		<meta property="og:url" content="https://labinthewild.org/studies/techperceptions/" />
-		<meta property="og:image" content="https://labinthewild.org/studies/techperceptions/img/techperception-logo.jpg" />
-		<meta property="og:description" content="What do the Tarot Cards of Tech say about your technology use?" />
+		<meta property="og:title" content="Which Cat?" />
+		<meta property="og:url" content="" />
+		<meta property="og:image" content="" />
+		<meta property="og:description" content="Which cat? A or B?" />
 		
 		<!-- ***** stylesheets ***** -->
+		<!-- bootstrap -->
+		<!-- NOTE(Trevor): for now, include the bootstrap stylesheet here. Including
+		it via webpackcaused other stylesheets linked to here (like litw-styles.css)
+		to be overridden. There's probably a way to do this within webpack, but need
+		to investigate further. -->
 		<link href="js/bootstrap.min-3_3_7.css" rel="stylesheet" type="text/css">
 
 		<!-- if using form autocompletion, include a jQueryUI css template -->
@@ -23,60 +27,81 @@
 		<!-- jsPsych styles -->
 		<link href="js/jsPsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css">
 
-   		<!-- LITW base styles -->
-		<link href="css/litw-styles.css?v=1.07" rel="stylesheet" type="text/css">
+		<!-- LITW base styles -->
+		<link href="css/litw-styles.css" rel="stylesheet" type="text/css">
 
+		<!-- study-specific styles -->
+		<link href="css/styles.css" rel="stylesheet" type="text/css">
 	</head>
 	
 	<body>
 		<div id="content">
+			<div class='modal fade' id='splash-screen' role='dialog'>
+        <div class='modal-dialog'>
+      		<div class='modal-content'>
+      	  	<div class='modal-header'>
+              <button type='button' class='close' id='splash-close' data-dismiss='modal'>&times</button>
+      		  	<h3 class='modal-title'>LabintheWild Template Study</h3>
+    		 		</div>
+	      		<div class='modal-body' id='modal-body'>
+	      			<h4 align='left'><strong>Welcome!</strong></h4>
+	      			<p align='left'>This LabintheWild study is a demonstration. It is designed to be a template for building other studies using the jsPsych library and LabintheWild utilities.</p>
+	      			<p align='left'>Although this template only demonstrates a single kind of stimulus, other trial types are possible. See the <a href="http://docs.jspsych.org/" target="_blank">jsPsych documentation</a> to see which other trial types are supported.</p>
+	      			<p>Also, visit our <a href="http://tutorial.labinthewild.org/" target="_blank">tutorial</a> to learn about best practices for designing large-scale, uncompensated studies.</p>
+	      			<p>Close this box to begin the study!</p>
+	      		</div>
+	      		<div class='modal-footer'>
+	            <img src='img/LabintheWild_withGlobe.png' style='float:left; height: 42px;'>
+	            <button type='button' class='btn btn-primary' id='splash-ok' data-dismiss='modal'>Ok</button>
+	      		</div>
+	       	</div>
+	      </div>
+      </div>
+
 			<div id="header">
 				<a href='http://www.labinthewild.org'>
-					<img src='img/LITW-logo2020.png' alt='logo' id='logo'/>
+					<img src='img/logo.png' alt='logo' id='logo'/>
 				</a>
+				<div id='header-share' class='sharing-buttons'></div>
 				<div class='separator'>&nbsp;</div>
 			</div>
 			<div id="progress-header"></div>
  			<div id="img-loading" class="slide"></div>
 			<div id="irb" class="slide"></div>
 			<div id="demographics" class="slide"></div>
-			<div id="pickTechnology" class="slide"></div>
-			<div id="useTechnology" class="slide"></div>
-			<div id="comments" class="slide"></div>
-			<div id="results" class="slide"></div>
+			<div id="motivationsurvey" class="slide"></div>
+			<div id="video" class="slide"></div>
+			<div id="instructions" class="slide"></div>
+			<div id="trials" class="slide"></div>
+			<div id="break" class="slide"></div>
+	  		<div id="comments" class="slide"></div>
+			<div id="futureSurvey" class="slide"></div>
+	  		<div id="results" class="slide"></div>
 			<div id="btn-next-page"></div>
 			<div id="ajax-working"></div>
-	   		<!--<<div id="empty" class="slide"></div>-->
+	   		<div id="empty" class="slide"></div>
 		</div>
-
-        <!-- Google Maps: KEY only works on *.labinthewild.org pages!-->
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUOX2LHIHoUCpid3oVOLeuX-kODKH8XA4&libraries=&v=weekly"
-        defer></script>
 
 
 		<!-- LITW modules --> 
 		<script src="js/litw/litw.utils.0.1.js"></script>
 		<script src="js/litw/litw.results.0.1.js"></script>
 	 	<script src="js/litw/litw.share.0.1.js"></script>
-		<script src="js/litw/litw.data.1.0-alpha.js"></script>
+	 	<script src="js/litw/litw.forms.0.1.js"></script>
+		<script src="js/litw/litw.data.noapi.0.1.js"></script>
 	 	<script src="js/litw/litw.tracking.noapi.0.1.js"></script>
 	 	<script src="js/litw/litw.comments.0.1.js"></script>
 	 	<script src="js/litw/litw.locale.0.1.js"></script>
-        <!-- TODO: Depends on Google Maps API -->
-        <script src="js/litw/litw.geocoding.0.1.js"></script>
 
  		<!-- jspsych -->
 		<script src="js/jsPsych-5.0.3/jspsych.js"></script>
 		<script src="js/jsPsych-5.0.3/plugins/jspsych-call-function.js"></script>
+		<script src="src/jspsych-single-stim-litw.js"></script>
 
-
-		<!-- study_client code and content -->
-		<script src="dist/bundle.min.js?v=1.26"></script>
+		<!-- study code and content -->
+		<script src="dist/bundle.min.js?ver=0.3"></script>
 		<script src="js/jquery.i18n.js" type="text/javascript"></script>
 		<script src="js/jquery.i18n.messagestore.js" type="text/javascript"></script>
-        <script type="text/javascript" src="js/handlebars.js"></script>
-        <script type="text/javascript" src="js/alpaca.min.js"></script>
 
 	</body>
 </html>

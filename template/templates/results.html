@@ -1,20 +1,27 @@
-<h2 class="bolded-blue">Thanks for your effort!</h2>
-<h4>We hope the Tarot Cards of Tech helped you think a bit deeper about the technologies you use.</h4>
-<h4>This study was inspired by the <a href="http://tarotcardsoftech.artefactgroup.com/" target="_blank">Artefact Group's Tarot Cards of Tech</a>.</h4>
-{{#if personal_tech}}
-<h3>Here you can read what another person thought about a technology you have considered:</h3>
+
+<!-- Template for the results page -->
+<h2 class="bolded-blue">{{content.header}}</h2>
+
+{{#if bothCats}}
+	<p>{{content.predictionMsgBoth}}</p>
 {{else}}
-<h3>Here you can read what another person thought about a technology we have considered:</h3>
+	<p>{{content.predictionMsg}}</p>
 {{/if}}
-<br>
-<div id="result-some-answer" style="display: flex; width: 70%; margin: 0 auto; align-items: center">
-    <div style="display: block; width: 20%; min-width: 150px">
-        <img src="{{ card }}" style="width: 100%"/>
-    </div>
-    <div style="display: block; padding: 20px">
-        <h3>{{ tech }}</h3>
-        <p style="font-style: italic">{{ answer }}</p>
-    </div>
+
+<div class="prediction-img-container">
+	{{#each whichCat}}
+		<img class="prediction-img" src="img/{{this}}" />
+	{{/each}}
 </div>
-<br>
-<div id="results-footer"></div>
+
+<div class="results-explanation">
+	{{#each resultsExplanation}}
+		<p>{{this}}</p>
+	{{/each}}
+</div>
+
+<div class="citations">
+	{{#each citations}}
+		<p>{{this}}</p>
+	{{/each}}
+</div>

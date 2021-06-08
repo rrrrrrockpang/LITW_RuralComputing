@@ -1,8 +1,16 @@
 /*************************************************************
- * study.js
+ * test.js
  *
- * Main experiment file for the LITW study.
+ * Main experiment file for the LITW demo study.
  *
+ * Author: Trevor Croxson
+ *       : Nigini A. Oliveira
+ * 
+ * Last Modified: February 5, 2017
+ * 
+ * © Copyright 2017 LabintheWild.
+ * For questions about this file and permission to use
+ * the code, contact us at info@labinthewild.org
  *************************************************************/
 
 // load webpack modules
@@ -11,239 +19,401 @@ require("bootstrap");
 require("jquery-ui-bundle");
 var LITW_STUDY_CONTENT = require("./data");
 var irbTemplate = require("../templates/irb.html");
-var demographicsTemplate = require("../templates/demographics.html");
-var pickTechnologyTemplate = require("../templates/pickTechnology.html");
-var useTechnologyTemplate = require("../templates/techUse.html");
+var instructionsTemplate = require("../templates/instructions.html");
 var loadingTemplate = require("../templates/loading.html");
-var commentsTemplate = require("../templates/comments.html");
-
 var resultsTemplate = require("../templates/results.html");
-var resultsFooter = require("../templates/results-bottom.html");
-var i18n = require("../js/i18n");
-var taroAnswers = {};
-require("./jspsych-display-slide");
-require("../js/jsPsych-5.0.3/plugins/jspsych-call-function");
+var surveyTemplate = require("../templates/survey.html");
+var motivationSurveyTemplate = require("../templates/motivationSurvey.html");
+var futureSurveyTemplate = require("../templates/futureSurvey.html");
+//var instructionsTemplate = require("../templates/instructions.html");
+var videoTemplate = require("../templates/video.html");
+//var loadingTemplate = require("../templates/loading.html");
 
-(function(exports) {
+
+var progressTemplate = require("../templates/progress.html");
+var i18n = require("../js/i18n");
+require("./jspsych-display-info");
+require("./jspsych-display-slide");
+
+module.exports = (function() {
 
 	window.litwWithTouch = false;
-	var sharedData = {};
+
 	var timeline = [],
+	self = this,
+	C,
 	params = {
-		languageFiles: {
-				'en': 'src/i18n/en.json?v=1.05',
-			},
-		preload: []
+		stims: [],
+		practiceStims: [],
+		currentProgress: 0
 	},
 
-	initJsPsych = function() {
 
-        timeline.push({
-			type: "display-slide",
-			template: irbTemplate,
-			display_element: $("#irb"),
-			name: "irb",
-			show_next: false
-		});
-
-
-        timeline.push({
-            type: "display-slide",
-            template: demographicsTemplate,
-            display_element: $("#demographics"),
-            name: "demographics",
-            finish: function(){
-            	let dem_data = $('#form').alpaca().getValue();
-            	console.log(dem_data);
-				dem_data['time_elapsed'] = getSlideTime();
-            	jsPsych.data.addProperties({demographics:dem_data});
-            	LITW.data.submitDemographics(dem_data);
-            }
-        });
-
-		timeline.push({
-			type: "display-slide",
-	        display_element: $("#pickTechnology"),
-			name: "pickTechnology",
-			template: pickTechnologyTemplate,
-			show_next: false
-		});
-
-		timeline.push({
-			type: "display-slide",
-        	display_element: $("#useTechnology"),
-			name: "useTechnology",
-			template: useTechnologyTemplate,
-			show_next: false
-		});
-
-		timeline.push({
-            type: "display-slide",
-            template: commentsTemplate,
-            display_element: $("#comments"),
-            name: "comments",
-            finish: function(){
-            	let comments = $('#form').alpaca().getValue();
-            	if (Object.keys(comments).length > 0) {
-					comments['time_elapsed'] = getSlideTime();
-					LITW.data.submitComments(comments);
-				}
-            }
-        });
-
-
-		timeline.push({
-			type: "call-function",
-			func: function(){
-				showResults();
+	irb = function() {
+		LITW.tracking.recordCheckpoint("irb");
+		$("#irb").html(irbTemplate());
+		$("#irb").i18n();
+		LITW.utils.showSlide("irb");
+		$("#agree-to-study").on("click", function() {
+			if ($(this).prop("checked")) {
+				LITW.utils.showNextButton(demographics);
+				$("#approve-irb").hide();
+			} else {
+				LITW.utils.hideNextButton();
+				$("#approve-irb").show();
 			}
 		});
 
+		// show the introductory splash screen
+		$("#splash-screen").modal({backdrop: "static"});
+	},
 
-        // timeline.push({
-		// 	type: "call-function",
-		// 	func: function () {
-		// 		$('#results').html(JSON.stringify(sharedData.taroAnswers)).show();
-		// 	},
+	demographics = function() {
+		LITW.tracking.recordCheckpoint("demographics");
+		LITW.forms.newForm("demographics", {
+			autocomplete: true
+		})
+		.add("retake", {
+			required: true
+		})
+		.add("gender")
+		.add("age", { 
+			style: "numericalFreeText", 
+			prompt: "How old are you? (Please type a number)",
+			boundsMessage: "Are you really %s years old? If not, please make sure to enter the correct age so that your data contributes to our research.",
+			minValue: 6,
+			maxValue: 99
+		})
+		.add("multinational")
+		.add("country")
+		.add("education", {
+			style: "numericalFreeText",
+			prompt: "How many years of education have you completed, starting from primary school?",
+			boundsMessage: "Have you really completed %s years of education? If not, please make sure to enter the correct value so that your data contributes to our research.",
+			minValue: 6,
+			maxValue: 30
+		})
+		.render(startTrials);
+
+		LITW.utils.showSlide("demographics");
+	},
+
+	initJsPsych = function() {
+		// ******* BEGIN STUDY PROGRESSION ******** //
 		//
-		// })
+		// A MOTIVATION SURVEY
+		//
+		timeline.push({
+		    type: "display-slide",
+		    display_element: $("#motivationsurvey"),
+		    name: "motivationsurvey",
+		    template: motivationSurveyTemplate({withTouch: window.litwWithTouch})
+		});
+
+
+		timeline.push({
+		    type: "display-slide",
+		    display_element: $("#video"),
+		    name: "video",
+		    template: videoTemplate({withTouch: window.litwWithTouch})
+		});
+
+		// 1. GENERAL INSTRUCTIONS PAGE
+		timeline.push({
+			type: "display-slide",
+            display_element: $("#instructions"),
+			name: "instructions",
+            template: instructionsTemplate({withTouch: window.litwWithTouch})
+		});
+
+		// 2. PRACTICE STIMS
+		// loop through all practice stims and register
+		// them with the jsPsych timeline
+		params.practiceStims.forEach(function(stim, index) {
+			
+			// record tracking information and update progress counter
+			timeline.push({
+				type: "call-function",
+				func: function() {
+					$("#progress-header").html(progressTemplate({
+						msg: C.progressMsg,
+						progress: ++params.currentProgress,
+						total: params.practiceStims.length
+					}))
+					.show();
+
+					LITW.utils.showSlide("trials");
+					LITW.tracking.recordCheckpoint("practice-" + (index + 1));
+				}
+			});
+
+			stim.withTouch = window.litwWithTouch;
+			timeline.push(stim);
+
+			// register a function to submit data as soon
+			// as this trial is completed
+			timeline.push({
+				type: "call-function",
+				func: submitData
+			});
+		});
+		
+		// 3. PRE-TRIAL BREAK
+		timeline.push({
+			type: "call-function",
+			func: function() {
+				params.currentProgress = 0;
+				$("#progress-header").hide();
+				LITW.utils.showSlide("break");
+				LITW.tracking.recordCheckpoint("pre-trial break");
+			}
+		})
+		timeline.push({
+			type: "display-info",
+			name: "preTrialBreak",
+			content: C.preTrial,
+			withTouch: window.litwWithTouch,
+			display_element: $("#break")
+		});
+		
+		// 4. TRIAL STIMS, PHASE 1
+		params.stims.forEach(function(stim, index) {
+			
+			// record tracking information and update progress counter
+			timeline.push({
+				type: "call-function",
+				func: function() {
+					$("#progress-header").html(progressTemplate({
+						msg: C.progressMsg,
+						progress: ++params.currentProgress,
+						total: params.stims.length * 2
+					}))
+					.show();
+
+					LITW.utils.showSlide("trials");
+					LITW.tracking.recordCheckpoint("trials-1-" + (index + 1));
+				}
+			});
+
+			stim.withTouch = window.litwWithTouch;
+			timeline.push(stim);
+
+			// register a function to submit data as soon
+			// as this trial is completed
+			timeline.push({
+				type: "call-function",
+				func: submitData
+			});
+		});
+
+		// 5. MID-TRIAL BREAK
+		timeline.push({
+			type: "call-function",
+			func: function() {
+				$("#progress-header").hide();
+				LITW.utils.showSlide("break");
+				LITW.tracking.recordCheckpoint("mid-trial break");
+			}
+		});
+		timeline.push({
+			type: "display-info",
+			content: C.midTrial,
+			name: "midTrialBreak",
+			display_element: $("#break")
+		});
+
+		// 6. TRIAL STIMS, PHASE 2
+		// re-shuffle stim order
+		params.stims = LITW.utils.shuffleArrays(params.stims);
+		params.stims.forEach(function(stim, index) {
+			
+			// record tracking information
+			timeline.push({
+				type: "call-function",
+				func: function() {
+					$("#progress-header").html(progressTemplate({
+						msg: C.progressMsg,
+						progress: ++params.currentProgress,
+						total: params.stims.length * 2
+					}))
+					.show();
+
+					LITW.utils.showSlide("trials");
+					LITW.tracking.recordCheckpoint("trials-2-" + (index + 1));
+				}
+			});
+
+			timeline.push(stim);
+
+			// register a function to submit data as soon
+			// as this trial is completed
+			timeline.push({
+				type: "call-function",
+				func: submitData
+			});
+		});
+
+		
+		timeline.push({
+		    type: "display-slide",
+		    display_element: $("#futureSurvey"),
+		    name: "futureSurvey",
+		    template: futureSurveyTemplate({withTouch: window.litwWithTouch}),
+		});
 
 		// ******* END STUDY PROGRESSION ******** //
 	},
 
-	startStudy = function() {
+	submitData = function() {
+		LITW.data.submitStudyData(jsPsych.data.getLastTrialData());
+	},
+
+	startTrials = function(demographicsData) {
+		
+		// send demographics data to the server
+		LITW.data.submitDemographics(demographicsData);
+
+		LITW.utils.showSlide("trials");
 		jsPsych.init({
 		  timeline: timeline,
+		  on_finish: comments,
+		  display_element: $("#trials")
 		});
 	},
 
-    getSlideTime = function() {
-		let data_size = jsPsych.data.getData().length;
-		if( data_size > 0 ) {
-			return jsPsych.totalTime() - jsPsych.data.getLastTrialData().time_elapsed;
-		} else {
-			return jsPsych.totalTime();
-		}
+	comments = function() {
+		$("#progress-header").hide();
+		LITW.utils.showSlide("comments");
+		LITW.comments.showCommentsPage(results);
 	},
 
-	pickRandomResult = function(storedResults) {
-		//DEFAULT+TEST
-		let answers = {
-			// Facebook: {},
-			// Nextdoor: {},
-			Grindr: {},
-			// Yelp: {},
-			yada: {}
-		};
+	results = function(commentsData) {
 
-		//Pre-loaded file!
-		if (sharedData.taroAnswers) {
-			answers = sharedData.taroAnswers;
+		LITW.data.submitComments(commentsData);
+
+		// get the trial data from jsPsych
+		var studyData = jsPsych.data.getTrialsOfType("single-stim"),
+		whichCat;
+
+		// strip out the data generated from the practice trial
+		studyData.splice(0, params.practiceStims.length);
+
+		var numNiceCats = studyData.filter(function(item) {
+			
+			// the nice cats are always on the right!
+			return item.key_press === 50;
+		}).length;
+		var numMeanCats = studyData.filter(function(item) {
+			
+			// the mean cats are always on the left!
+			return item.key_press === 49;
+		}).length;
+
+		if (numNiceCats === numMeanCats) {
+			whichCat = ["cat-nice.jpg", "cat-mean.jpg"];
+		} else {
+			whichCat = (numNiceCats > numMeanCats) ? 
+				["cat-nice.jpg"] : 
+				["cat-mean.jpg"];
 		}
-		//Pick random tech: first try participants' answers then any from the list.
-		let result = {};
-		let participant_tech = Object.keys(answers);
-		let existing_tech = Object.keys(storedResults['answers']);
-		for (tech of Object.keys(answers)) {
-			if (!existing_tech.includes(tech)) {
-				participant_tech = participant_tech.filter(item => item !== tech)
+
+		LITW.utils.showSlide("results");
+		$("#results").html(resultsTemplate({
+			content: C.results,
+			resultsExplanation: C.resultsExplanation,
+			citations: C.citations,
+			whichCat: whichCat,
+			bothCats: (whichCat.length === 2)
+		}));
+
+		LITW.results.insertFooter();
+	};
+
+	summaryInitialData = function(json_data){
+		var summary = {};
+		for (count in json_data) {
+			var country = json_data[count].country;
+			if( country in summary){
+				summary[country] = summary[country]+1;
+			} else {
+				summary[country] = 1;
 			}
-		}
-		if(participant_tech.length > 0) {
-			result.tech = LITW.utils.shuffleArrays(participant_tech)[0];
-			result.personal_tech = true;
-		} else {
-			result.tech = LITW.utils.shuffleArrays(existing_tech)[0];
-			result.personal_tech = false;
-		}
+		};
+		var data = {summary : true};
+		data.data = summary;
+		LITW.data.submitStudyData(data);
+	}
 
-		//Pick a random card to return
-		let possibleCards = Object.keys(storedResults['answers'][result.tech]);
-		let pickedCard = LITW.utils.shuffleArrays(possibleCards)[0];
-		result.card = storedResults['cardImages'][pickedCard];
-		result.answer = storedResults['answers'][result.tech][pickedCard];
-		console.log('PICKED RESULT: ' + JSON.stringify(result));
-		return result;
-	},
-
-	showResults = function() {
-		$.getJSON('src/i18n/results-en.json?v=1.02', function(data) {
-			$("#results").html(
-				resultsTemplate(pickRandomResult(data)));
-			$("#results-footer").html(
-				resultsFooter(
-				{
-					//TODO fix this before launching!
-					share_url: "https://labinthewild.org",
-					share_title: $.i18n('litw-irb-header'),
-					share_text: $.i18n('litw-template-title'),
-					more_litw_studies: [{
-						study_url: "https://labinthewild.org/studies/newsletters/",
-						study_logo: "http://labinthewild.org/studies/newsletters/img/newsletter-icon.png",
-						study_slogan: $.i18n('litw-more-study1-slogan'),
-						study_description: $.i18n('litw-more-study1-description'),
-					},
-					{
-						study_url: "https://labinthewild.org/studies/formality-security/",
-						study_logo: "http://labinthewild.org/images/formality-logo.jpg",
-						study_slogan: $.i18n('litw-more-study2-slogan'),
-						study_description: $.i18n('litw-more-study2-description'),
-					}]
-				}
-			));
-			$("#results").i18n();
-			LITW.utils.showSlide("results");
+	readSummaryData = function() {
+		$.getJSON( "summary.json", function( data ) {
+			//TODO: 'data' contains the produced summary form DB data 
+			//      in case the study was loaded using 'index.php'
+			//SAMPLE: The example code gets the cities of study partcipants.
+			console.log(data);
 		});
 	}
 
 	// when the page is loaded, start the study!
 	$(document).ready(function() {
 		// get initial data from database (nmaybe needed for the results page!?)
-		//readSummaryData();
+		readSummaryData();
 
 		// detect touch devices
-		//window.litwWithTouch = ("ontouchstart" in window);
+		window.litwWithTouch = ("ontouchstart" in window);
 
 		// determine and set the study language
 		//$.i18n().locale = i18n.getLocale();
 
 		$.i18n().load(
-			params.languageFiles
+			{
+				'en': 'src/i18n/en.json',
+				'pt-BR': 'src/i18n/pt-br.json'
+			}
 		).done(
 			function(){
 				$('head').i18n();
 				$('body').i18n();
+			}
+		);
 
-				// generate unique participant id and geolocate participant
-				LITW.data.initialize();
-				LITW.utils.showSlide("img-loading");
+		// generate unique participant id and geolocate participant
+		LITW.data.initialize();
+		LITW.share.makeButtons("#header-share");
 
-				// preload images
-				jsPsych.pluginAPI.preloadImages(params.preload,
-					// initialize the jsPsych timeline and
-					// proceed to IRB page when loading has finished
-					function() {
-						initJsPsych();
-						//irb(startStudy);
-						startStudy();
-					},
+		// shortcut to access study content
+		C = LITW_STUDY_CONTENT;
 
-					// update loading indicator as files preload
-					function(numLoaded) {
-						$("#img-loading").html(loadingTemplate({
-							msg: "Loading ...",
-							numLoaded: numLoaded,
-							total: params.preload.length
-						}));
-					}
-				);
+		// Load the trial configuration data for the practice
+		// trials and the real trials
+		params.practiceStims = C.practiceCats;
+		params.stims = C.trialCats;
+
+		// shuffle the order of the trials
+		params.practiceStims = LITW.utils.shuffleArrays(params.practiceStims);
+		params.stims = LITW.utils.shuffleArrays(params.stims);
+		
+		LITW.utils.showSlide("img-loading");
+		
+		// preload images
+		jsPsych.pluginAPI.preloadImages(params.stims,
+			
+			// initialize the jsPsych timeline and
+			// proceed to IRB page when loading has finished
+			function() { 
+				initJsPsych();
+				irb(); 
+			},
+			
+			// update loading indicator as stims preload
+			function(numLoaded) { 
+				$("#img-loading").html(loadingTemplate({
+					msg: C.loadingMsg,
+					numLoaded: numLoaded,
+					total: params.stims.length
+				}));
 			}
 		);
 	});
-
-	exports.study = {};
-	exports.study.sharedData = sharedData;
-
-})(window.LITW = window.LITW || {});
+})();
 
 
