@@ -6,5 +6,5 @@ api/src/vendor/*
 node_modules/
 template/include/config.php
 
-templates/package-lock.json
+template/package-lock.json
 dist/bundle.min.js
