@@ -22,13 +22,9 @@ var irbTemplate = require("../templates/irb.html");
 var instructionsTemplate = require("../templates/instructions.html");
 var loadingTemplate = require("../templates/loading.html");
 var resultsTemplate = require("../templates/results.html");
-var surveyTemplate = require("../templates/survey.html");
 var motivationSurveyTemplate = require("../templates/motivationSurvey.html");
 var futureSurveyTemplate = require("../templates/futureSurvey.html");
-//var instructionsTemplate = require("../templates/instructions.html");
 var videoTemplate = require("../templates/video.html");
-//var loadingTemplate = require("../templates/loading.html");
-
 
 var progressTemplate = require("../templates/progress.html");
 var i18n = require("../js/i18n");
