@@ -27,49 +27,28 @@ module.exports = {
 	"midTrial": {
 		"header": "You're doing great! Take a breather."
 	},
-	"practiceCats": [
+	"trialCards": [
 		{
 			"type": "single-stim",
-			"stimulus": "<img src='img/stim-img/cat1.jpg' class='left-stim' /><img src='img/stim-img/cat2.jpg' class='right-stim' />",
+			"stimulus": "<img src='img/stim-img/bffs.png'/>",
 			"is_html": true,
-			"choices": [49, 50], // the numbers 1 - 2
-			"prompt": "Which picture do you identify with most? <span class='bolded-blue'>(Press 1 to select the left image and 2 to select the right image. You may also use your mouse to click on an image.)</span>",
-			"promptWithTouch": "Which picture do you identify with most? <span class='bolded-blue'>(Tap on an image to select it.)</span>"
-		}
-	],
-	"trialCats": [
-		{
-			"type": "single-stim",
-			"stimulus": "<img src='img/stim-img/cat3.jpg' class='left-stim' /><img src='img/stim-img/cat4.jpg' class='right-stim' />",
-			"is_html": true,
-			"choices": [49, 50], // the numbers 1 - 2
 			"prompt": "Which picture do you identify with most? <span class='bolded-blue'>(Press 1 to select the left image and 2 to select the right image. You may also use your mouse to click on an image.)</span>",
 			"promptWithTouch": "Which picture do you identify with most? <span class='bolded-blue'>(Tap on an image to select it.)</span>"
 		},
 		{
 			"type": "single-stim",
-			"stimulus": "<img src='img/stim-img/cat5.jpg' class='left-stim' /><img src='img/stim-img/cat6.jpg' class='right-stim' />",
+			"stimulus": "<img src='img/stim-img/catalyst.png'/>",
 			"is_html": true,
-			"choices": [49, 50], // the numbers 1 - 2
 			"prompt": "Which picture do you identify with most? <span class='bolded-blue'>(Press 1 to select the left image and 2 to select the right image. You may also use your mouse to click on an image.)</span>",
 			"promptWithTouch": "Which picture do you identify with most? <span class='bolded-blue'>(Tap on an image to select it.)</span>"
 		},
 		{
 			"type": "single-stim",
-			"stimulus": "<img src='img/stim-img/cat7.jpg' class='left-stim' /><img src='img/stim-img/cat8.jpg' class='right-stim' />",
+			"stimulus": "<img src='img/stim-img/forgotten.png'/>",
 			"is_html": true,
-			"choices": [49, 50], // the numbers 1 - 2
 			"prompt": "Which picture do you identify with most? <span class='bolded-blue'>(Press 1 to select the left image and 2 to select the right image. You may also use your mouse to click on an image.)</span>",
 			"promptWithTouch": "Which picture do you identify with most? <span class='bolded-blue'>(Tap on an image to select it.)</span>"
 		},
-		{
-			"type": "single-stim",
-			"stimulus": "<img src='img/stim-img/cat9.jpg' class='left-stim' /><img src='img/stim-img/cat10.jpg' class='right-stim' />",
-			"is_html": true,
-			"choices": [49, 50], // the numbers 1 - 2
-			"prompt": "Which picture do you identify with most? <span class='bolded-blue'>(Press 1 to select the left image and 2 to select the right image. You may also use your mouse to click on an image.)</span>",
-			"promptWithTouch": "Which picture do you identify with most? <span class='bolded-blue'>(Tap on an image to select it.)</span>"
-		}
 	],
 	"loadingMsg": "Loading resources:",
 	"progressMsg": "Progress:",

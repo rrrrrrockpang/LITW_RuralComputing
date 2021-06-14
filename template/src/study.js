@@ -26,6 +26,11 @@ var motivationSurveyTemplate = require("../templates/motivationSurvey.html");
 var futureSurveyTemplate = require("../templates/futureSurvey.html");
 var videoTemplate = require("../templates/video.html");
 
+var card1Template = require("../templates/card-1.html");
+var card2Template = require("../templates/card-2.html");
+var card3Template = require("../templates/card-3.html");
+
+
 var progressTemplate = require("../templates/progress.html");
 var i18n = require("../js/i18n");
 require("./jspsych-display-info");
@@ -122,132 +127,153 @@ module.exports = (function() {
             template: instructionsTemplate({withTouch: window.litwWithTouch})
 		});
 
-		// 2. PRACTICE STIMS
-		// loop through all practice stims and register
-		// them with the jsPsych timeline
-		params.practiceStims.forEach(function(stim, index) {
+		timeline.push({
+			type: "display-slide",
+            display_element: $("#card-1"),
+			name: "card-1",
+            template: card1Template({withTouch: window.litwWithTouch})
+		});
+
+		timeline.push({
+			type: "display-slide",
+            display_element: $("#card-2"),
+			name: "card-2",
+            template: card2Template({withTouch: window.litwWithTouch})
+		});
+
+		timeline.push({
+			type: "display-slide",
+            display_element: $("#card-3"),
+			name: "card-3",
+            template: card3Template({withTouch: window.litwWithTouch})
+		});
+
+		// // 2. PRACTICE STIMS
+		// // loop through all practice stims and register
+		// // them with the jsPsych timeline
+		// params.practiceStims.forEach(function(stim, index) {
 			
-			// record tracking information and update progress counter
-			timeline.push({
-				type: "call-function",
-				func: function() {
-					$("#progress-header").html(progressTemplate({
-						msg: C.progressMsg,
-						progress: ++params.currentProgress,
-						total: params.practiceStims.length
-					}))
-					.show();
+		// 	// record tracking information and update progress counter
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: function() {
+		// 			$("#progress-header").html(progressTemplate({
+		// 				msg: C.progressMsg,
+		// 				progress: ++params.currentProgress,
+		// 				total: params.practiceStims.length
+		// 			}))
+		// 			.show();
 
-					LITW.utils.showSlide("trials");
-					LITW.tracking.recordCheckpoint("practice-" + (index + 1));
-				}
-			});
+		// 			LITW.utils.showSlide("trials");
+		// 			LITW.tracking.recordCheckpoint("practice-" + (index + 1));
+		// 		}
+		// 	});
 
-			stim.withTouch = window.litwWithTouch;
-			timeline.push(stim);
+		// 	stim.withTouch = window.litwWithTouch;
+		// 	timeline.push(stim);
 
-			// register a function to submit data as soon
-			// as this trial is completed
-			timeline.push({
-				type: "call-function",
-				func: submitData
-			});
-		});
+		// 	// register a function to submit data as soon
+		// 	// as this trial is completed
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: submitData
+		// 	});
+		// });
 		
-		// 3. PRE-TRIAL BREAK
-		timeline.push({
-			type: "call-function",
-			func: function() {
-				params.currentProgress = 0;
-				$("#progress-header").hide();
-				LITW.utils.showSlide("break");
-				LITW.tracking.recordCheckpoint("pre-trial break");
-			}
-		})
-		timeline.push({
-			type: "display-info",
-			name: "preTrialBreak",
-			content: C.preTrial,
-			withTouch: window.litwWithTouch,
-			display_element: $("#break")
-		});
+		// // 3. PRE-TRIAL BREAK
+		// timeline.push({
+		// 	type: "call-function",
+		// 	func: function() {
+		// 		params.currentProgress = 0;
+		// 		$("#progress-header").hide();
+		// 		LITW.utils.showSlide("break");
+		// 		LITW.tracking.recordCheckpoint("pre-trial break");
+		// 	}
+		// })
+		// timeline.push({
+		// 	type: "display-info",
+		// 	name: "preTrialBreak",
+		// 	content: C.preTrial,
+		// 	withTouch: window.litwWithTouch,
+		// 	display_element: $("#break")
+		// });
 		
 		// 4. TRIAL STIMS, PHASE 1
-		params.stims.forEach(function(stim, index) {
+		// params.stims.forEach(function(stim, index) {
 			
-			// record tracking information and update progress counter
-			timeline.push({
-				type: "call-function",
-				func: function() {
-					$("#progress-header").html(progressTemplate({
-						msg: C.progressMsg,
-						progress: ++params.currentProgress,
-						total: params.stims.length * 2
-					}))
-					.show();
+		// 	// record tracking information and update progress counter
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: function() {
+		// 			$("#progress-header").html(progressTemplate({
+		// 				msg: C.progressMsg,
+		// 				progress: ++params.currentProgress,
+		// 				total: params.stims.length * 2
+		// 			}))
+		// 			.show();
 
-					LITW.utils.showSlide("trials");
-					LITW.tracking.recordCheckpoint("trials-1-" + (index + 1));
-				}
-			});
+		// 			LITW.utils.showSlide("trials");
+		// 			LITW.tracking.recordCheckpoint("trials-1-" + (index + 1));
+		// 		}
+		// 	});
 
-			stim.withTouch = window.litwWithTouch;
-			timeline.push(stim);
+		// 	stim.withTouch = window.litwWithTouch;
+		// 	timeline.push(stim);
 
-			// register a function to submit data as soon
-			// as this trial is completed
-			timeline.push({
-				type: "call-function",
-				func: submitData
-			});
-		});
+		// 	// register a function to submit data as soon
+		// 	// as this trial is completed
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: submitData
+		// 	});
+		// });
 
 		// 5. MID-TRIAL BREAK
-		timeline.push({
-			type: "call-function",
-			func: function() {
-				$("#progress-header").hide();
-				LITW.utils.showSlide("break");
-				LITW.tracking.recordCheckpoint("mid-trial break");
-			}
-		});
-		timeline.push({
-			type: "display-info",
-			content: C.midTrial,
-			name: "midTrialBreak",
-			display_element: $("#break")
-		});
+		// timeline.push({
+		// 	type: "call-function",
+		// 	func: function() {
+		// 		$("#progress-header").hide();
+		// 		LITW.utils.showSlide("break");
+		// 		LITW.tracking.recordCheckpoint("mid-trial break");
+		// 	}
+		// });
+		// timeline.push({
+		// 	type: "display-info",
+		// 	content: C.midTrial,
+		// 	name: "midTrialBreak",
+		// 	display_element: $("#break")
+		// });
 
 		// 6. TRIAL STIMS, PHASE 2
 		// re-shuffle stim order
-		params.stims = LITW.utils.shuffleArrays(params.stims);
-		params.stims.forEach(function(stim, index) {
+		// params.stims = LITW.utils.shuffleArrays(params.stims);
+		// params.stims.forEach(function(stim, index) {
 			
-			// record tracking information
-			timeline.push({
-				type: "call-function",
-				func: function() {
-					$("#progress-header").html(progressTemplate({
-						msg: C.progressMsg,
-						progress: ++params.currentProgress,
-						total: params.stims.length * 2
-					}))
-					.show();
+		// 	// record tracking information
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: function() {
+		// 			$("#progress-header").html(progressTemplate({
+		// 				msg: C.progressMsg,
+		// 				progress: ++params.currentProgress,
+		// 				total: params.stims.length * 2
+		// 			}))
+		// 			.show();
 
-					LITW.utils.showSlide("trials");
-					LITW.tracking.recordCheckpoint("trials-2-" + (index + 1));
-				}
-			});
+		// 			LITW.utils.showSlide("trials");
+		// 			LITW.tracking.recordCheckpoint("trials-2-" + (index + 1));
+		// 		}
+		// 	});
 
-			timeline.push(stim);
+		// 	timeline.push(stim);
 
-			// register a function to submit data as soon
-			// as this trial is completed
-			timeline.push({
-				type: "call-function",
-				func: submitData
-			});
-		});
+		// 	// register a function to submit data as soon
+		// 	// as this trial is completed
+		// 	timeline.push({
+		// 		type: "call-function",
+		// 		func: submitData
+		// 	});
+		// });
 
 		
 		timeline.push({
@@ -381,11 +407,11 @@ module.exports = (function() {
 
 		// Load the trial configuration data for the practice
 		// trials and the real trials
-		params.practiceStims = C.practiceCats;
-		params.stims = C.trialCats;
+		// params.practiceStims = C.practiceCats;
+		params.stims = C.trialCards;
 
 		// shuffle the order of the trials
-		params.practiceStims = LITW.utils.shuffleArrays(params.practiceStims);
+		// params.practiceStims = LITW.utils.shuffleArrays(params.practiceStims);
 		params.stims = LITW.utils.shuffleArrays(params.stims);
 		
 		LITW.utils.showSlide("img-loading");
