@@ -20,14 +20,34 @@
 
 <!--Template for the pre-trial break page -->
 
+<script>
+    $(document).ready(function(){
+        $(".card").each(function(e) {
+
+        setTimeout(function() {
+            $(".card").eq(e).attr("class", "card ani" + e);
+            }, e * 150)        
+        });
+    })
+</script>
 
 <h2 class="bolded-blue">You are reading the Tarot Cards of Mixed Reality (XR) Tech</h2>
 
 <p data-i18n="cards-prompt"></p>
 
-<img style="display: inline; width: 30%; padding: 5px; border-radius: 20px;" src="../img/stim-img/bffs.png"/>
-<img style="display: inline; width: 30%; padding: 5px; border-radius: 20px;" src="../img/stim-img/catalyst.png"/>
-<img style="display: inline; width: 30%; padding: 5px; border-radius: 20px;" src="../img/stim-img/forgotten.png"/>
+<div>
+    <div class="list">
+        <li class="card">
+            <img style="border-radius: 20px;" src="../img/stim-img/bffs.png"/>
+        </li>
+        <li class='card'>
+            <img style="border-radius: 20px;" src="../img/stim-img/catalyst.png"/>
+        </li>
+        <li class='card'>
+            <img style="border-radius: 20px;" src="../img/stim-img/forgotten.png"/>
+        </li>
+    </div>
+</div>
 
 <!-- TODO
 Make cards clickable 

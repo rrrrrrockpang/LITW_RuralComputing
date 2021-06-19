@@ -1,8 +1,23 @@
+<script>
+    $('.flipcard').on("click", function() {
+        $('.flipcard').toggleClass('flipped');
+    })
+</script>
+
 <h2 class='bolded-blue' data-i18n="card-header"></h2>
 
 <div>
     <div style="text-align: center">
-        <img src="../img/stim-img/catalyst.png"/>
+        <section class="flipcard-section" style="margin:auto">
+            <div class="flipcard">
+                <div class='front'>
+                    <img src="../img/stim-img/catalyst.png" style="width: 242px; height: 363px"/>
+                </div>
+                <div class='back'>
+                    <img src="../img/stim-img/catalyst_description.png" style="width: 242px; height: 363px" />
+                </div>
+            </div>
+        </section>
     </div>
     <br>
     <div>
