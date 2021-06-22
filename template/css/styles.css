@@ -164,3 +164,15 @@
   -o-transform: rotateY( 180deg );
   transform: rotateY( 180deg );
 }
+
+.likert_box {
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.likert_response {
+  text-align: center;
+  display: inline-flex;
+  width: 100px;
+  padding: 20px;
+}
