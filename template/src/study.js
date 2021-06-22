@@ -121,6 +121,7 @@ module.exports = (function() {
 		LITW.utils.showSlide("motivationsurvey");
 
 		LITW.utils.showNextButton(video);
+
 	}
 
 	video = function() {
