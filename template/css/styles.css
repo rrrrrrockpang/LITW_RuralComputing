@@ -166,13 +166,14 @@
 }
 
 .likert_box {
-  align-items: flex-start;
-  justify-content: space-around;
+  display: inline;
+  width: 50px;
+  text-align:center;
+  vertical-align: top;
 }
 
 .likert_response {
-  text-align: center;
-  display: inline-flex;
-  width: 100px;
-  padding: 20px;
+  display: inline-block;
+  width: 150px;
+  vertical-align: top;
 }
