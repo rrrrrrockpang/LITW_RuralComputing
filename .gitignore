@@ -7,4 +7,4 @@ node_modules/
 template/include/config.php
 
 template/package-lock.json
-dist/bundle.min.js
+template/dist/bundle.min.js
