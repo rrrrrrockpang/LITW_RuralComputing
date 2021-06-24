@@ -59,10 +59,14 @@
     <div>
         <label><h3 data-i18n="litw-futuresurvey-question4"></h3></label>
         <select name="future-years-available" id="future-years-available">
-            {{#times 50}} 
+            {{#times 10}} 
                 <option value="future-years-{{this}}">{{this}} years</option>
             {{/times}}
-            <option value="more-than-50">More than 50</option>
+            <option value="11-20">11-20 years</option>
+            <option value="21-30">21-30 years</option>
+            <option value="31-40">31-40 years</option>
+            <option value="41-50">41-50 years</option>
+            <option value="more-than-51">More than 51</option>
         </select>
     </div>
     
