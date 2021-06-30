@@ -98,6 +98,7 @@ module.exports = (function() {
 			minValue: 6,
 			maxValue: 99
 		})
+		.add("ethnicity")
 		.add("multinational")
 		.add("country")
 		.add("education", {
