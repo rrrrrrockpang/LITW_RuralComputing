@@ -8,3 +8,5 @@ template/include/config.php
 
 template/package-lock.json
 template/dist/bundle.min.js
+template/summary.json
+template/db_data.json
