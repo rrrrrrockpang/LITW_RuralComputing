@@ -127,6 +127,11 @@ module.exports = (function() {
 
 	video = function() {
 		LITW.tracking.recordCheckpoint("video");
+		LITW.data.submitStudyData({
+			"motivation-1-answer": $("#question1-1 input[name='likert1']:checked").val(),
+			"motivation-2-answer": $("#question1-2 input[name='likert2']:checked").val(),
+			"motivation-3-answer": $("#question1-3 input[name='likert3']:checked").val(),	
+		});
 		$("#video").html(videoTemplate);
 		$("#video").i18n();
 		LITW.utils.showSlide("video");
@@ -145,10 +150,12 @@ module.exports = (function() {
 
 	selectCard = function() {
 		if(cards.length < 3) {
-			LITW.data.submitStudyData({
-				"card": lastCard,
-				"text": $("#" + lastCard + "-textarea").val()
-			})
+			var card_data = {};
+			var answer = lastCard + "-answer";
+			card_data[lastCard] = lastCard;
+			card_data[answer] = $("#" + lastCard + "-textarea").val();
+
+			LITW.data.submitStudyData(card_data);
 		}
 		var card_id = get_random_cardId();
 		LITW.tracking.recordCheckpoint(card_id);
