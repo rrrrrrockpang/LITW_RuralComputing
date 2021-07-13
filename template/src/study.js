@@ -128,9 +128,9 @@ module.exports = (function() {
 	video = function() {
 		LITW.tracking.recordCheckpoint("video");
 		LITW.data.submitStudyData({
-			"motivation-1-answer": $("#question1-1 input[name='likert1']:checked").val(),
-			"motivation-2-answer": $("#question1-2 input[name='likert2']:checked").val(),
-			"motivation-3-answer": $("#question1-3 input[name='likert3']:checked").val(),	
+			"motivation_1_answer": $("#question1-1 input[name='likert1']:checked").val(),
+			"motivation_2_answer": $("#question1-2 input[name='likert2']:checked").val(),
+			"motivation_3_answer": $("#question1-3 input[name='likert3']:checked").val(),	
 		});
 		$("#video").html(videoTemplate);
 		$("#video").i18n();
@@ -218,45 +218,21 @@ module.exports = (function() {
 		LITW.comments.showCommentsPage(results);
 	},
 
+	showResults = function(data) {
+		$("#results").html(resultsTemplate({
+			answer: data['motivation_1_answer']['sum']
+		}));
+	},
+
 	results = function(commentsData) {
 
 		LITW.data.submitComments(commentsData);
-
-		// get the trial data from jsPsych
-		var studyData = jsPsych.data.getTrialsOfType("single-stim"),
-		whichCat;
-
-		// strip out the data generated from the practice trial
-		studyData.splice(0, params.practiceStims.length);
-
-		var numNiceCats = studyData.filter(function(item) {
-			
-			// the nice cats are always on the right!
-			return item.key_press === 50;
-		}).length;
-		var numMeanCats = studyData.filter(function(item) {
-			
-			// the mean cats are always on the left!
-			return item.key_press === 49;
-		}).length;
-
-		if (numNiceCats === numMeanCats) {
-			whichCat = ["cat-nice.jpg", "cat-mean.jpg"];
-		} else {
-			whichCat = (numNiceCats > numMeanCats) ? 
-				["cat-nice.jpg"] : 
-				["cat-mean.jpg"];
-		}
-
 		LITW.utils.showSlide("results");
-		$("#results").html(resultsTemplate({
-			content: C.results,
-			resultsExplanation: C.resultsExplanation,
-			citations: C.citations,
-			whichCat: whichCat,
-			bothCats: (whichCat.length === 2)
-		}));
 
+		$.getJSON('summary.json', {_: new Date().getTime()}, function(data) {
+			showResults(data);
+		})
+		
 		LITW.results.insertFooter();
 	};
 
@@ -280,7 +256,7 @@ module.exports = (function() {
 			//TODO: 'data' contains the produced summary form DB data 
 			//      in case the study was loaded using 'index.php'
 			//SAMPLE: The example code gets the cities of study partcipants.
-			console.log(data);
+			showResults(data);
 		});
 	}
 
