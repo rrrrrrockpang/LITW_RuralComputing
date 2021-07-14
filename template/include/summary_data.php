@@ -10,13 +10,19 @@ function summary($json_data) {
 	// $summary = array('city_number'=>sizeof($cities),'cities'=>array_keys($cities));
 	// return json_encode($summary);
 	$results = array(
-		'motivation_1_answer'=>array('sum'=>0, 'count'=>0)
+		'future_1_answer'=>array('sum'=>0, 'count'=>0),
+		'future_2_answer'=>array('sum'=>0, 'count'=>0)
 	);
 
 	foreach($data as $participant) {
-		$answer=intval($participant['motivation_1_answer']);
-		$results['motivation_1_answer']['sum'] += $answer;
-		$results['motivation_1_answer']['count']++;
+		$future1result=intval($participant['future_1_answer']);
+		$future2result=intval($participant['future_2_answer']);
+
+		$results['future_1_answer']['sum'] += $future1result;
+		$results['future_1_answer']['count']++;
+
+		$results['future_2_answer']['sum'] += $future2result;
+		$results['future_2_answer']['count']++;
 	}
 
 	return json_encode($results);
