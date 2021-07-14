@@ -185,6 +185,7 @@
 /* Position the image container (needed to position the left and right arrows) */
 .container {
   position: relative;
+  max-width: 800px;
 }
 
 /* Hide the images by default */
@@ -241,6 +242,7 @@
   background-color: #222;
   padding: 2px 16px;
   color: white;
+  max-width: 800px;
 }
 
 .row:after {
