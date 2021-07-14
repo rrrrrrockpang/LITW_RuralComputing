@@ -190,6 +190,10 @@
   max-width: 800px;
 }
 
+.container img {
+  opacity: .5;
+}
+
 /* Hide the images by default */
 .mySlides {
   display: none;
@@ -244,13 +248,20 @@
   background-color: #222;
   padding: 2px 16px;
   color: white;
-  max-width: 800px;
+  top: 10%;
+  position: absolute;
+  width: 96.05%;
 }
 
 .row:after {
   content: "";
   display: table;
   clear: both;
+}
+
+.row {
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 /* Six columns side by side */
