@@ -123,15 +123,20 @@ module.exports = (function() {
 
 		LITW.utils.showNextButton(video);
 
-	}
+	},
 
-	video = function() {
-		LITW.tracking.recordCheckpoint("video");
+	submitMotivationStudy = function() {
 		LITW.data.submitStudyData({
 			"motivation_1_answer": $("#question1-1 input[name='likert1']:checked").val(),
 			"motivation_2_answer": $("#question1-2 input[name='likert2']:checked").val(),
 			"motivation_3_answer": $("#question1-3 input[name='likert3']:checked").val(),	
 		});
+	},
+
+	video = function() {
+		submitMotivationStudy();
+		LITW.tracking.recordCheckpoint("video");
+
 		$("#video").html(videoTemplate);
 		$("#video").i18n();
 		LITW.utils.showSlide("video");
@@ -198,34 +203,32 @@ module.exports = (function() {
 		LITW.utils.showSlide("futureSurvey");
 
 		LITW.utils.showNextButton(comments);
-	}
+	},
 
-	startTrials = function(demographicsData) {
-		// send demographics data to the server
-		LITW.data.submitDemographics(demographicsData);
-
-		LITW.utils.showSlide("trials");
-		jsPsych.init({
-		  timeline: timeline,
-		  on_finish: comments,
-		  display_element: $("#trials")
+	submitFutureStudy = function() {
+		LITW.data.submitStudyData({
+			"future_study": "future_study",
+			"future_1_answer": $("select[name='future-years-available'] option:selected").val(),
+			"future_2_answer": $("#question1-4 input[name='likert4']:checked").val(),
 		});
 	},
 
 	comments = function() {
+		submitFutureStudy();
+
 		$("#progress-header").hide();
 		LITW.utils.showSlide("comments");
 		LITW.comments.showCommentsPage(results);
 	},
 
 	showResults = function(data) {
+		var average_future_2 = data['future_2_answer']['sum'] / data['future_2_answer']['count'];
 		$("#results").html(resultsTemplate({
-			answer: data['motivation_1_answer']['sum']
+			answer: average_future_2
 		}));
 	},
 
 	results = function(commentsData) {
-
 		LITW.data.submitComments(commentsData);
 		LITW.utils.showSlide("results");
 
