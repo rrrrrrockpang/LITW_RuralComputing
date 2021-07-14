@@ -1,7 +1,7 @@
 <?php
 require_once("config.php");
 
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$conn = mysqli_connect('mysql3.labinthewild.org', 'tmp_litw', '9b71YTbtiuAZb+wmiSs', 'litw_tmp_studies');
 mysqli_set_charset($conn, "utf8");
 
 if ( false===$conn ) {
