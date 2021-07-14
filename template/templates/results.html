@@ -2,17 +2,19 @@
 <!-- Template for the results page -->
 <h2 class="bolded-blue">{{content.header}}</h2>
 
-<p data-i18n="litw-results-p1">Thank you for completing the study. You predicted that mixed reality will be adopted in your home country in [X] years. Here's what experts have predicted about augmented, virtual, and mixed reality:
+<p data-i18n="litw-results-p1">Thank you for completing the study. <b>You predicted that mixed reality will be adopted in your home country in {{ answer }} years. Others who have taken this test have predicted that mixed reality will be adopted in their home country in [x] years.</b></p>
+
+<p>Here's what experts have predicted about augmented, virtual, and mixed reality:
 </p>
 
 <!-- Container for the image gallery -->
 <div class="container">
 
-  <div id='result-tick-plot'>
+<!--   <div id='result-tick-plot'>
     <p>Here is your result: </p>
     <p>{{ answer }}</p>
   </div>
-
+ -->
   <!-- Full-width images with number text -->
   <div class="mySlides">
     <div class="numbertext">1 / 6</div>

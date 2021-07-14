@@ -180,7 +180,9 @@
   vertical-align: top;
 }
 
-
+.question {
+  text-align: center;
+}
 
 /* Position the image container (needed to position the left and right arrows) */
 .container {
