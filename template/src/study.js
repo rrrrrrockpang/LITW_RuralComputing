@@ -58,7 +58,7 @@ module.exports = (function() {
 			cards.splice(index, 1);
 		}
 	
-		last_card = card;
+		lastCard = card;
 		return card;
 	},
 
@@ -153,15 +153,31 @@ module.exports = (function() {
 		LITW.utils.showNextButton(selectCard);
 	}
 
-	selectCard = function() {
-		if(cards.length < 3) {
-			var card_data = {};
-			var answer = lastCard + "-answer";
-			card_data[lastCard] = lastCard;
-			card_data[answer] = $("#" + lastCard + "-textarea").val();
+	submitCardData = function() {
+		var card_data = {}; 
+		var answer = lastCard + "-answer";
+		card_data[lastCard] = lastCard;
+		card_data[answer] = $("#" + lastCard + "-textarea").val();
 
-			LITW.data.submitStudyData(card_data);
+		if(lastCard === "card-1") {
+			var radio_answer = lastCard + "-radio-answer";
+			card_data[radio_answer] = $("#litw-card1-question1 input[name='likert4']:checked").val().trim();
+		} else if (lastCard === "card-2") {
+			var radio_answer = lastCard + "-radio-answer";
+			card_data[radio_answer] = $("#litw-card2-question1 input[name='likert5']:checked").val().trim();
 		}
+		console.log(card_data);
+
+		LITW.data.submitStudyData(card_data);
+	}
+
+	selectCard = function() {
+		// Submit both card input text and multiple choice questions
+		if(cards.length < 3) { // Only in condition when some card has been selected
+			submitCardData();
+		}
+
+		// Randomly shuffle the cards and pick one
 		var card_id = get_random_cardId();
 		LITW.tracking.recordCheckpoint(card_id);
 
@@ -169,34 +185,27 @@ module.exports = (function() {
 			$("#card-1").html(card1Template);
 			$("#card-1").i18n();
 			LITW.utils.showSlide("card-1");
-			if(cards.length > 0) {
-				LITW.utils.showNextButton(selectCard);
-			} else {
-				LITW.utils.showNextButton(futureSurvey);
-			}
-
 		} else if (card_id === "card-2") {
 			$("#card-2").html(card2Template);
 			$("#card-2").i18n();
 			LITW.utils.showSlide("card-2");
-			if(cards.length > 0) {
-				LITW.utils.showNextButton(selectCard);
-			} else {
-				LITW.utils.showNextButton(futureSurvey);
-			}
 		} else {
 			$("#card-3").html(card3Template);
 			$("#card-3").i18n();
 			LITW.utils.showSlide("card-3");
-			if(cards.length > 0) {
-				LITW.utils.showNextButton(selectCard);
-			} else {
-				LITW.utils.showNextButton(futureSurvey);
-			}
+		}
+
+		// Next card or enter futureSurvey
+		if(cards.length > 0) {
+			LITW.utils.showNextButton(selectCard);
+		} else {
+			LITW.utils.showNextButton(futureSurvey);
 		}
 	}
 
 	futureSurvey = function() {
+		submitCardData();
+
 		LITW.tracking.recordCheckpoint("futureSurvey");
 		$("#futureSurvey").html(futureSurveyTemplate);
 		$("#futureSurvey").i18n();
@@ -207,9 +216,10 @@ module.exports = (function() {
 
 	submitFutureStudy = function() {
 		LITW.data.submitStudyData({
-			"future_study": "future_study",
-			"future_1_answer": $("select[name='future-years-available'] option:selected").val(),
-			"future_2_answer": $("#question1-4 input[name='likert4']:checked").val(),
+			"future_study": {
+				"future_1_answer": $("select[name='future-years-available'] option:selected").val(),
+				"future_2_answer": $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
+			}
 		});
 	},
 
@@ -222,9 +232,9 @@ module.exports = (function() {
 	},
 
 	showResults = function(data) {
-		var average_future_2 = data['future_2_answer']['sum'] / data['future_2_answer']['count'];
+		// var average_future_2 = data['future_2_answer']['sum'] / data['future_2_answer']['count'];
 		$("#results").html(resultsTemplate({
-			answer: average_future_2
+			answer: 123
 		}));
 	},
 
@@ -325,5 +335,3 @@ module.exports = (function() {
 		);
 	});
 })();
-
-
