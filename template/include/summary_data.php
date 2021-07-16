@@ -3,29 +3,12 @@
 //IN: JSON - OUT:JSON
 function summary($json_data) {
 	$data = json_decode($json_data,true);
-	// $cities = array();
-	// foreach ($data as $value) {
-	// 	$cities[$value['city']] = true;
-	// }
-	// $summary = array('city_number'=>sizeof($cities),'cities'=>array_keys($cities));
-	// return json_encode($summary);
-	$results = array(
-		'future_1_answer'=>array('sum'=>0, 'count'=>0),
-		'future_2_answer'=>array('sum'=>0, 'count'=>0)
-	);
-
-	foreach($data as $participant) {
-		$future1result=intval($participant['future_1_answer']);
-		$future2result=intval($participant['future_2_answer']);
-
-		$results['future_1_answer']['sum'] += $future1result;
-		$results['future_1_answer']['count']++;
-
-		$results['future_2_answer']['sum'] += $future2result;
-		$results['future_2_answer']['count']++;
+	$cities = array();
+	foreach ($data as $value) {
+		$cities[$value['city']] = true;
 	}
-
-	return json_encode($results);
+	$summary = array('city_number'=>sizeof($cities),'cities'=>array_keys($cities));
+	return json_encode($summary);
 }
 
 //READ db_data.json
