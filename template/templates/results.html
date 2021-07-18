@@ -1,17 +1,37 @@
 
 <!-- Template for the results page -->
-<h2 class="bolded-blue">{{content.header}}</h2>
+<h2 class="bolded-blue">How does your answer compare with others?</h2>
 
-<p data-i18n="litw-results-p1">Thank you for completing the study. You predicted that mixed reality will be adopted in your home country in [X] years. Here's what experts have predicted about augmented, virtual, and mixed reality:
-</p>
+<p data-i18n="litw-results-p1">Thank you for completing the study.</p>
+
+<div id="result-future-question" style="display:block;margin-left:auto">
+  <!-- Vis for question 1 -->
+  <label>
+    <span>
+      <p data-i18n="litw-results-q1-vis-label">
+        You predicted that mixed reality will be adopted in your home country in <strong>{{ numYear }}</strong>
+      </p>
+    </span>  
+  </label>
+  <div id="vis_anchor_1"></div>
+  
+  <!-- Vis for question 2 -->
+  <label>
+    <span>
+      <p data-i18n="litw-results-q2-vis-label">
+        Do you think that future mixed reality technology will cause more harm than good? Your rating is: <strong>{{ rating }}</strong>
+      </p>
+    </span>  
+  </label>
+  <div id="vis_anchor_2"></div>
+</div>
+
+<hr> 
+
+<h2 class="bolded-blue" data-i18n="litw-results-p2">Here's what experts have predicted about augmented, virtual, and mixed reality: </h2>
 
 <!-- Container for the image gallery -->
 <div class="container">
-
-  <div id='result-tick-plot'>
-    <p>Here is your result: </p>
-    <p>{{ answer }}</p>
-  </div>
 
   <!-- Full-width images with number text -->
   <div class="mySlides">

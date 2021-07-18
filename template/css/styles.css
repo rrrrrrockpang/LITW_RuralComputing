@@ -277,3 +277,13 @@
 .demo:hover {
   opacity: 1;
 }
+
+/* Visualization results */
+.text {
+  fill: black;
+}
+
+#result-future-question svg {
+  display: block;
+  margin: auto;
+}
