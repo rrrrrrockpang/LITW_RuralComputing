@@ -249,9 +249,10 @@
   background-color: #222;
   padding: 2px 16px;
   color: white;
-  top: 10%;
+  bottom: 20%;
   position: absolute;
   width: 96.05%;
+  font-size: 25px;
 }
 
 .row:after {
