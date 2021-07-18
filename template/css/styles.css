@@ -166,10 +166,13 @@
 }
 
 .likert_box {
-  display: inline;
+  /* display: inline;
   width: 50px;
   text-align:center;
-  vertical-align: top;
+  vertical-align: top; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .likert_response {
