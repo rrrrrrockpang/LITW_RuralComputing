@@ -73,12 +73,15 @@
     "litw-card2-answer1-4": "4",
     "litw-card2-answer1-5": "5",
     "litw-futuresurvey-header": "Would you mind answering these quick questions?",
-    "litw-futuresurvey-question1": "1. In how many years do you think of the XR technology could be available for your home country?",
-    "litw-futuresurvey-question2": "2. Do you think that future XR technology will cause more harm than good?",
+    "litw-futuresurvey-question1": "1. In how many years do you think of the mixed reality technology could be available for your home country?",
+    "litw-futuresurvey-question2": "2. Do you think that future mixed reality technology will cause more harm than good?",
     "litw-futuresurvey-answer2-1": "Strongly disagree",
     "litw-futuresurvey-answer2-2": "Slightly disagree",
     "litw-futuresurvey-answer2-3": "Neither disagree nor agree",
     "litw-futuresurvey-answer2-4": "Slightly agree",
     "litw-futuresurvey-answer2-5": "Strongly agree",
-    "litw-results-p1": "Thank you for completing the study. You predicted that mixed reality will be adopted in your home country in [X] years. Here's what experts have predicted about augmented, virtual, and mixed reality:"
+    "litw-results-p1": "Thank you for completing the study.",
+    "litw-results-p2": "Here's what experts have predicted about augmented, virtual, and mixed reality: ",
+    "litw-results-q1-vis-label": "You predicted that mixed reality will be adopted in your home country in ",
+    "litw-results-q2-vis-label": "Do you think that future mixed reality technology will cause more harm than good? Your rating is: "
 }
