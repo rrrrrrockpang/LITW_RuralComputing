@@ -189,6 +189,8 @@
 .container {
   position: relative;
   max-width: 800px;
+  padding-right: 0px;
+  padding-left: 0px;
 }
 
 .container img {
@@ -215,6 +217,7 @@
   padding: 16px;
   margin-top: -50px;
   color: white;
+  background-color: rgba(0, 0, 0, 0.8);
   font-weight: bold;
   font-size: 20px;
   border-radius: 0 3px 3px 0;
@@ -226,12 +229,6 @@
 .next {
   right: 0;
   border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Number text (1/3 etc) */
@@ -251,7 +248,7 @@
   color: white;
   bottom: 20%;
   position: absolute;
-  width: 96.05%;
+  width: 100%;
   font-size: 25px;
 }
 
