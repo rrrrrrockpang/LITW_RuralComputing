@@ -172,10 +172,13 @@ module.exports = (function() {
 		if(lastCard === "card-1") {
 			var radio_answer = lastCard + "-radio-answer";
 			card_data[radio_answer] = $("#litw-card1-question1 input[name='likert4']:checked").val();
-		} else if (lastCard === "card-2") {
-			var radio_answer = lastCard + "-radio-answer";
-			card_data[radio_answer] = $("#litw-card2-question1 input[name='likert5']:checked").val();
-		}
+		} 
+
+		// in case we need questions in card-2
+		// else if (lastCard === "card-2") {
+		// 	var radio_answer = lastCard + "-radio-answer";
+		// 	card_data[radio_answer] = $("#litw-card2-question1 input[name='likert5']:checked").val();
+		// }
 
 		LITW.data.submitStudyData(card_data);
 	}
