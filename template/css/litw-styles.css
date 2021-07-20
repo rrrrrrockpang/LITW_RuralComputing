@@ -520,7 +520,7 @@ a:active {
 .hidden {
 	display: none;
 }
-#approve-irb {
+.bottom-warning {
 	float: right;
 	margin-top: 20px;
 	margin-bottom: 20px;
@@ -532,4 +532,3 @@ a:active {
 #num-loaded {
 	text-align: center;
 }
-

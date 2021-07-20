@@ -122,8 +122,17 @@ module.exports = (function() {
 		$("#motivationsurvey").i18n();
 		LITW.utils.showSlide("motivationsurvey");
 
-		LITW.utils.showNextButton(video);
-
+		$(".motivation-question").on("click", function() {
+			if($("#question1-1 input[name='likert1']:checked").val() &&
+				$("#question1-2 input[name='likert2']:checked").val() && 
+				$("#question1-3 input[name='likert3']:checked").val()) {
+					LITW.utils.showNextButton(video);
+					$("#fill-motivational-survey").hide();
+			} else {
+				LITW.utils.hideNextButton(video);
+				$("#fill-motivational-survey").show();
+			}
+		})
 	},
 
 	submitMotivationStudy = function() {
@@ -212,6 +221,16 @@ module.exports = (function() {
 		$("#futureSurvey").i18n();
 		LITW.utils.showSlide("futureSurvey");
 
+		$(".future-question").on("click", function() {
+			if($("select[name='future-years-available'] option:selected").val() &&
+				$("#litw-futuresurvey-question2 input[name='likert6']:checked").val()){
+					LITW.utils.showNextButton(comments);
+					$("#fill-future-survey").hide();
+			} else {
+				LITW.utils.hideNextButton(comments);
+				$("#fill-future-survey").show();
+			}
+		})
 		LITW.utils.showNextButton(comments);
 	},
 
