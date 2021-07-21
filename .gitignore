@@ -5,8 +5,3 @@ api/db/template.db
 api/src/vendor/*
 node_modules/
 template/include/config.php
-
-template/package-lock.json
-template/dist/bundle.min.js
-template/summary.json
-template/db_data.json
