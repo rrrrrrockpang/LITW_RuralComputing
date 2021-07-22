@@ -473,6 +473,7 @@ module.exports = (function() {
 	results = function(commentsData) {
 		// Need to restore this
 		LITW.data.submitComments(commentsData);
+		LITW.tracking.recordCheckpoint("results");
 		LITW.utils.showSlide("results");
 		LITW.results.insertFooter();
 
