@@ -297,10 +297,10 @@ module.exports = (function() {
 	},
 
 	createVisualizationForFutureStudy1 = function(data) {
-		var mean = data['futureSurvey1']['sum'] / data['futureSurvey1']['count'];
+		var mean = data['futureSurvey1']['count'] === 0 ? 1 : data['futureSurvey1']['sum'] / data['futureSurvey1']['count'];
 		var selected = parseFloat($("select[name='future-years-available'] option:selected").val());
 
-		var margin = { top: 50, left: 50, right: 50, bottom: 50 };
+		var margin = { top: 50, left: 60, right: 60, bottom: 50 };
 		
 		var w = 600 - margin.left - margin.right;
 		var h = 150 - margin.top - margin.bottom;
@@ -388,7 +388,7 @@ module.exports = (function() {
 		var userAnswer = parseInt($("#litw-futuresurvey-question2 input[name='likert6']:checked").val());
 		var dataset = wrangleSummaryData(data, userAnswer);		
 
-		var margin = { top: 5, left: 50, right: 50, bottom: 12 };
+		var margin = { top: 5, left: 60, right: 60, bottom: 12 };
 		
 		var w = 600 - margin.left - margin.right;
 		var h = 150 - margin.top - margin.bottom;
