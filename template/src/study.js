@@ -211,12 +211,20 @@ module.exports = (function() {
 			LITW.utils.showSlide("card-3");
 		}
 		
-		if(cards.length > 0) {
-			LITW.utils.showNextButton(selectCard);
-		} else {
-			LITW.utils.showNextButton(futureSurvey);
-			
-		}
+		$(".agree-to-continue").on("click", function() {
+			if ($(this).prop("checked")) {
+				if(cards.length > 0) {
+					LITW.utils.showNextButton(selectCard);
+				} else {
+					$("#btn-next-page")
+					LITW.utils.showNextButton(futureSurvey);
+				}
+				$(".approve-continue").hide();
+			} else {
+				LITW.utils.hideNextButton();
+				$(".approve-continue").show();
+			}
+		});
 	}
 
 	futureSurvey = function() {
