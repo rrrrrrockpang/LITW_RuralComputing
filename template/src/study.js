@@ -155,6 +155,9 @@ module.exports = (function() {
 	}
 
 	instructionPage = function() {
+		// stop youtube video
+		$(".youtube-video")[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+
 		LITW.tracking.recordCheckpoint("instructions");
 		$("#instructions").html(instructionsTemplate);
 		$("#instructions").i18n();
