@@ -1,8 +1,8 @@
-<h2 class="bolded-blue" data-i18n="litw-futuresurvey-header"></h2>
 <div id="future-questions">
     <div class="future-question">
         <label><h3 data-i18n="litw-futuresurvey-question1"></h3></label>
         <select name="future-years-available" id="future-years-available">
+        	<option value="" selected disabled hidden>Choose here</option>
             {{#times 10}} 
                 <option value="{{this}}">{{this}} years</option>
             {{/times}}
