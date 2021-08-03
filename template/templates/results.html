@@ -76,7 +76,7 @@
   <!-- Thumbnail images -->
   <div class="row">
     <div class="column">
-      <img class="demo cursor" src="img/results-img/xr-city.jpg" style="width:100%" onclick="currentSlide(1)" alt="The future you just watched is coming soon!">
+      <img class="demo cursor" src="img/results-img/xr-city.jpg" style="width:100%" onclick="currentSlide(1)">
     </div>
     <div class="column">
       <img class="demo cursor" src="img/results-img/google-glass-hud.jpg" style="width:100%" onclick="currentSlide(2)" alt="In 2018, a Toshiba survey &quot;found that 82% of enterprises predict that ‘AR smart glasses’ (or mixed reality) will be used by their businesses in the next three years.&quot;">
@@ -103,6 +103,10 @@
 <div id="results-footer"></div>
 
 <script>
+
+  var slide_map = {
+    first_slide: "The future you just watched is coming soon! <a href='google.com'>Link</a>"  
+  }
 
 	var slideIndex = 1;
 	showSlides(slideIndex);
@@ -140,7 +144,9 @@
     
 	  slides[slideIndex-1].style.display = "block";
 	  dots[slideIndex-1].className += " active";
-	  captionText.innerHTML = dots[slideIndex-1].alt;
+	  //captionText.innerHTML = dots[slideIndex-1].alt;
+    captionText.innerHTML = slide_map["first_slide"];
+
 	}
 
 </script>

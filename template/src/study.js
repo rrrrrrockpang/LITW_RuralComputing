@@ -210,14 +210,14 @@ module.exports = (function() {
 			$("#card-2").i18n();
 			LITW.utils.showSlide("card-2");
 
-			$("#card-2").html(card1Template({
+			$("#card-2").html(card2Template({
 				order: cards.length + 1
 			}))
 		} else {
 			$("#card-3").html(card3Template);
 			$("#card-3").i18n();
 			LITW.utils.showSlide("card-3");
-			$("#card-3").html(card1Template({
+			$("#card-3").html(card3Template({
 				order: cards.length + 1
 			}))
 		}
