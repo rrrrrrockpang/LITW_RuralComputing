@@ -249,8 +249,8 @@ module.exports = (function() {
 		$("#futureSurvey").i18n();
 		LITW.utils.showSlide("futureSurvey");
 
-		$(".future-question").on("click", function() {
-			if($("select[name='future-years-available'] option:selected").val() &&
+		$(".future-question").on("change", function() {
+			if($("select[name='future-years-available'] option:selected").val() !== "default" &&
 				$("#litw-futuresurvey-question2 input[name='likert6']:checked").val()){
 					LITW.utils.showNextButton(comments);
 					$("#fill-future-survey").hide();
@@ -259,7 +259,7 @@ module.exports = (function() {
 				$("#fill-future-survey").show();
 			}
 		})
-		LITW.utils.showNextButton(comments);
+		
 	},
 
 	submitFutureStudy = function() {
