@@ -40,6 +40,9 @@ module.exports = (function() {
 
 	window.litwWithTouch = false;
 
+	window.cardCounter = 0;
+	window.cardWordList = ["null", "first", "second", "third"];
+
 	var timeline = [],
 	cards = ["card-1", "card-2", "card-3"],
 	lastCard = "",
@@ -58,7 +61,7 @@ module.exports = (function() {
 		if(index > -1) {
 			cards.splice(index, 1);
 		}
-	
+		cardCounter++;
 		lastCard = card;
 		return card;
 	},
