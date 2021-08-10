@@ -2,6 +2,11 @@
     $('.flipcard').on("click", function() {
         $('.flipcard').toggleClass('flipped');
     })
+
+    var paragraph = document.getElementById("cardHeader");
+    var text = document.createTextNode("Click on the card below to draw your " + cardWordList[cardCounter]);
+    paragraph.appendChild(text);
+    paragraph.appendChild(document.createTextNode(" Tarot Card of Tech. You can answer the questions in the text box below."));
     
 </script>
 
@@ -35,39 +40,39 @@
     </div>    
 
     <br>
-    <h3>Click on the card below to draw your first Tarot Card of Tech. You can answer the questions in the text box below.</h3>
+
     <div id="litw-card1-question1">
-        <!-- <h4 data-i18n="litw-futuresurvey-question1-2"></h4> -->
+        <h4>To what extent do you think XR technology will enhance/detract your relationships with your friends and family in 10 years?</h4>
 
         <div class="likert_box">
             <div class="likert_response">
                 <input type='radio' name='likert4' id='likert4_1' value='1'/>
                 <br>
-                <label for='likert4_1' data-i18n="litw-card1-answer1-1"></label>
+                <label for='likert4_1' data-i18n="litw-card1-answer1-1">Will significantly detract from relationships</label>
             </div>
 
             <div class="likert_response">
                 <input type='radio' name='likert4' id='likert4_2' value='2'/>
                 <br>
-                <label for='likert4_2' data-i18n="litw-card1-answer1-2"></label>
+                <label for='likert4_2' data-i18n="litw-card1-answer1-2">Slightly detract from relationships</label>
             </div>
 
             <div class="likert_response">
                 <input type='radio' name='likert4' id='likert4_3' value='3'/>
                 <br>
-                <label for='likert4_3' data-i18n="litw-card1-answer1-3"></label>
+                <label for='likert4_3' data-i18n="litw-card1-answer1-3">No impact</label>
             </div>
 
             <div class="likert_response">
                 <input type='radio' name='likert4' id='likert4_4' value='4'/>
                 <br>
-                <label for='likert4_4' data-i18n="litw-card1-answer1-4"></label>
+                <label for='likert4_4' data-i18n="litw-card1-answer1-4">Will slightly enhance relationships</label>
             </div>
 
             <div class="likert_response">
                 <input type='radio' name='likert4' id='likert4_5' value='5'/>
                 <br>
-                <label for='likert4_5' data-i18n="litw-card1-answer1-5"></label>
+                <label for='likert4_5' data-i18n="litw-card1-answer1-5">Will significantly enhance relationships</label>
             </div>
         </div>
     </div>
@@ -76,9 +81,7 @@
 
 <br />
 
-<form id="consent-form">
+<form class="bottom-warning" id="consent-form">
 	<input type="checkbox" class="agree-to-continue" id="card1-agree-to-continue" />
-	<label for="card1-agree-to-continue" data-i18n='litw-card-consent'></label>
+	<label class="bolded-blue" for="card1-agree-to-continue" data-i18n='litw-card-consent'>Are you sure you finished this Tarot card?</label>
 </form>
-
-<span class="bolded-blue bottom-warning" class="approve-continue" data-i18n='litw-card-warning'></span>
