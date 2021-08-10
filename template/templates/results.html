@@ -104,9 +104,14 @@
 
 <script>
 
-  var slide_map = {
-    first_slide: "The future you just watched is coming soon! <a href='google.com'>Link</a>"  
-  }
+  var slide_map = [
+    "The future you just watched is coming soon!", 
+    "In 2018, a Toshiba survey \"found that 82% of enterprises predict that ‘AR smart glasses’ (or mixed reality) will be used by their businesses in the next three years. \" <a href='https://www.forbes.com/sites/solrogers/2018/12/04/what-is-mixed-reality-and-what-does-it-mean-for-enterprise/?sh=582060795df9'>[Source]</a>", 
+    "Deloitte shared in an article that predicts that the XR \"industry will reach a total US$73 billion in 2024, or a 54% annual growth rate between 2020 and 2024.\" <a href='https://www2.deloitte.com/us/en/insights/industry/technology/technology-media-and-telecom-predictions/2021/vr-immersive-technologies.html'>[Source]</a>",
+    "PWC believes that \"VR and AR have the potential to add $1.5 trillion to the global economy by 2030.\" <a href='https://www.pwc.com/seeingisbelieving'>[Source]</a>",
+    "In a consumer report, Ericsson states that \"7 out of 10 early adopters expect VR/AR to change everyday life fundamentally in six domains: media, education, work, social interaction, travel and retail.\" <a href='https://www.ericsson.com/en/reports-and-papers/consumerlab/reports/merged-reality'>[Source]</a>",
+    "Are you ready for the future?"];
+  
 
 	var slideIndex = 1;
 	showSlides(slideIndex);
@@ -145,7 +150,7 @@
 	  slides[slideIndex-1].style.display = "block";
 	  dots[slideIndex-1].className += " active";
 	  //captionText.innerHTML = dots[slideIndex-1].alt;
-    captionText.innerHTML = slide_map["first_slide"];
+    captionText.innerHTML = slide_map[slideIndex - 1];
 
 	}
 
