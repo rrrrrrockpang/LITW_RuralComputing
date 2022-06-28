@@ -19,6 +19,7 @@ require("bootstrap");
 require("jquery-ui-bundle");
 var LITW_STUDY_CONTENT = require("./data");
 var irbTemplate = require("../templates/irb.html");
+var demographicsTemplate = require("../templates/demographics.html");
 var instructionsTemplate = require("../templates/instructions.html");
 var loadingTemplate = require("../templates/loading.html");
 var resultsTemplate = require("../templates/results.html");
@@ -88,33 +89,10 @@ module.exports = (function() {
 
 	demographics = function() {
 		LITW.tracking.recordCheckpoint("demographics");
-		LITW.forms.newForm("demographics", {
-			autocomplete: true
-		})
-		.add("retake", {
-			required: true
-		})
-		.add("gender")
-		.add("age", { 
-			style: "numericalFreeText", 
-			prompt: "How old are you? (Please type a number)",
-			boundsMessage: "Are you really %s years old? If not, please make sure to enter the correct age so that your data contributes to our research.",
-			minValue: 6,
-			maxValue: 99
-		})
-		.add("ethnicity")
-		.add("multinational")
-		.add("country")
-		.add("education", {
-			style: "numericalFreeText",
-			prompt: "How many years of education have you completed, starting from primary school?",
-			boundsMessage: "Have you really completed %s years of education? If not, please make sure to enter the correct value so that your data contributes to our research.",
-			minValue: 6,
-			maxValue: 30
-		})
-		.render(motivationSurvey);
-
+		$("#demographics").html(demographicsTemplate());
+		$("#demographics").i18n();
 		LITW.utils.showSlide("demographics");
+		LITW.utils.showNextButton(motivationSurvey);
 	},
 
 	motivationSurvey = function(demographicsData) {
@@ -584,7 +562,7 @@ module.exports = (function() {
 			// initialize the jsPsych timeline and
 			// proceed to IRB page when loading has finished
 			function() { 
-				// initJsPsych();
+				// configureStudy();
 				irb();
 			},
 			
