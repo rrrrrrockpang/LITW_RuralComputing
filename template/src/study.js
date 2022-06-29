@@ -95,8 +95,8 @@ module.exports = (function() {
 		LITW.utils.showNextButton(motivationSurvey);
 	},
 
-	motivationSurvey = function(demographicsData) {
-		LITW.data.submitDemographics(demographicsData);
+	motivationSurvey = function() {
+		// LITW.data.submitDemographics();
 
 		LITW.tracking.recordCheckpoint("motivationalSurvey");
 		$("#motivationsurvey").html(motivationSurveyTemplate());
