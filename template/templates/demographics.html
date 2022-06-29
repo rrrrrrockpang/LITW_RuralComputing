@@ -32,13 +32,13 @@
                                 },
                                 "demographics-age": {
                                     "title": $.i18n('litw-demographics-age'),
-                                    "required":true,
+                                    "required":false,
                                     "minimum": 18
                                 },
                                 "demographics-gender": {
                                     "title": $.i18n('litw-demographics-gender'),
                                     "enum": ['female', 'male', 'non-binary', 'no-disclosure', 'other'],
-                                    "required":true
+                                    "required":false
                                 },
                                 "demographics-gender-other": {
                                     "title": $.i18n('litw-demographics-gender-other'),
@@ -49,12 +49,12 @@
                                     "enum": ['no-formal-edu', 'incomplete-primary', 'complete-primary',
                                         'incomplete-sec-high', 'complete-sec-high', 'university-no-degree',
                                         'university-degree', 'incomplete-grad-prof', 'complete-grad-prof'],
-                                    "required":true
+                                    "required":false
                                 },
                                 "demographics-culture": {
                                     "title": $.i18n('litw-demographics-country'),
                                     "enum": Object.keys(countries),
-                                    "required":true
+                                    "required":false
                                 },
                                 "demographics-race": {
                                     "title": $.i18n('litw-demographics-race'),
@@ -162,18 +162,15 @@
                             $("input[type='text']").css('width','200px');
     
                             // AGE RESTRICTION CODE!!!
-                            // let age = control.childrenByPropertyId["demographics-age"];
-                            // age.subscribe(age, function(ageValue) {
-                            //     if(ageValue !== '' && !isNaN(ageValue) && Number(ageValue)<14) {
-                            //         $("#litw-body").html(
-                            //             "<H2>"+$.i18n('litw-demographics-minor-alert1') +"</H2>"+
-                            //             "<H3>"+$.i18n('litw-demographics-minor-alert2') + "</H3>"
-                            //         );
-                            //         window.setTimeout(function(){
-                            //             window.location.replace("https://www.labinthewild.org");
-                            //         }, 5000);
-                            //     }
-                            // });
+                            let age = control.childrenByPropertyId["demographics-age"];
+                            age.subscribe(age, function(ageValue) {
+                                alertMessage = $(`<span id="ageAlert" style="color:red">${$.i18n('litw-demographics-minor-alert1')}</span>`)
+                                if(Number(ageValue) < 18) {
+                                    $("input[name='demographics-age']").after(alertMessage);
+                                } else {
+                                    $("#ageAlert").remove();
+                                }
+                            });
     
                             let gender = control.childrenByPropertyId["demographics-gender"];
                             let genderOther = control.childrenByPropertyId["demographics-gender-other"];
@@ -200,6 +197,7 @@
                         "view": {
                             "callbacks": {
                                 "valid": function(control) {
+                                    $("#fill-motivational-survey").hide();
                                     $('#btn-next-page').attr('style','display:block;');
                                 },
                                 "invalid": function() {
