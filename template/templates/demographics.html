@@ -160,6 +160,12 @@
                             $('#btn-next-page').attr('style','display:none;');
                             $(".alpaca-required-indicator").html(" *");
                             $("input[type='text']").css('width','200px');
+                            let retake = control.childrenByPropertyId["demographics-retake"];
+                            retake.subscribe(retake, function(val) {
+                                if(val === "yes" || val === "no") {
+                                    $('#btn-next-page').attr('style','display:block;');
+                                } 
+                            })
     
                             // AGE RESTRICTION CODE!!!
                             let age = control.childrenByPropertyId["demographics-age"];
@@ -193,18 +199,6 @@
                                 this.refresh();
                                 $("input[type='text']").css('width','200px');
                             });
-                        },
-                        "view": {
-                            "callbacks": {
-                                "valid": function(control) {
-                                    $("#fill-motivational-survey").hide();
-                                    $('#btn-next-page').attr('style','display:block;');
-                                },
-                                "invalid": function() {
-                                    $('#btn-next-page').attr('style','display:none;');
-                                    $("#fill-motivational-survey").show();
-                                }
-                            }
                         }
                      });
             });
