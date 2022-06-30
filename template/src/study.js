@@ -97,13 +97,17 @@ module.exports = (function() {
 
 	motivationSurvey = function() {
 		// LITW.data.submitDemographics();
+		// Submit demographic data
+		var dem_data = $('#demographicsForm').alpaca().getValue();
+		jsPsych.data.addProperties({demographics:dem_data});
+		LITW.data.submitDemographics(dem_data);
 
 		LITW.tracking.recordCheckpoint("motivationalSurvey");
 		$("#motivationsurvey").html(motivationSurveyTemplate());
 		$("#motivationsurvey").i18n();
 		LITW.utils.showSlide("motivationsurvey");
 
-		$(".motivation-question").on("click", function() {
+		$("#motivation-questions").on("click", function() {
 			if($("#question1-1 input[name='likert1']:checked").val() &&
 				$("#question1-2 input[name='likert2']:checked").val() && 
 				$("#question1-3 input[name='likert3']:checked").val()) {
@@ -228,7 +232,7 @@ module.exports = (function() {
 		LITW.utils.showSlide("futureSurvey");
 
 		$(".future-question").on("change", function() {
-			if($("select[name='future-years-available'] option:selected").val() !== "default" &&
+			if($("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val() &&
 				$("#litw-futuresurvey-question2 input[name='likert6']:checked").val()){
 					LITW.utils.showNextButton(comments);
 					$("#fill-future-survey").hide();
@@ -243,7 +247,7 @@ module.exports = (function() {
 	submitFutureStudy = function() {
 		LITW.data.submitStudyData({
 			"future_study": "success",
-			"future_1_answer": $("select[name='future-years-available'] option:selected").val(),
+			"future_1_answer": $("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val(),
 			"future_2_answer": $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
 		});
 	},
@@ -482,7 +486,7 @@ module.exports = (function() {
 
 		$.getJSON( "summary.json", function( data ) {
 			$("#results").html(resultsTemplate({
-				numYear: $("select[name='future-years-available'] option:selected").text(),
+				numYear: $("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val(),
 				rating: $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
 			}));
 			createVisualizationForFutureStudy1(data);
