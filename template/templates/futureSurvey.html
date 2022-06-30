@@ -1,49 +1,106 @@
+<h2 class="h3 bolded-blue">
+    <span data-i18n="litw-futuresurvey-title"></span>
+</h2>
+<!-- <div class="future-question">
+    <label><h3 data-i18n="litw-futuresurvey-question1"></h3></label>
+    <select name="future-years-available" id="future-years-available">
+        <option value="default" selected disabled hidden>Choose here</option>
+        {{#times 10}} 
+            <option value="{{this}}">{{this}} years</option>
+        {{/times}}
+        <option value="15.5">11-20 years</option>
+        <option value="25.5">21-30 years</option>
+        <option value="35.5">31-40 years</option>
+        <option value="45.5">41-50 years</option>
+        <option value="51">More than 51</option>
+    </select>
+</div> -->
 <div id="future-questions">
-    <div class="future-question">
-        <label><h3 data-i18n="litw-futuresurvey-question1"></h3></label>
-        <select name="future-years-available" id="future-years-available">
-        	<option value="default" selected disabled hidden>Choose here</option>
-            {{#times 10}} 
-                <option value="{{this}}">{{this}} years</option>
-            {{/times}}
-            <option value="15.5">11-20 years</option>
-            <option value="25.5">21-30 years</option>
-            <option value="35.5">31-40 years</option>
-            <option value="45.5">41-50 years</option>
-            <option value="51">More than 51</option>
-        </select>
+    <h3 data-i18n="litw-futuresurvey-question1"></h3>
+
+    <div id="litw-futuresurvey-question1" class="survey-question future-question">
+        <label></label>
+        <ul>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-1" value="1"/>
+                    <label for="future-years-available-1">It's already part of everyday life</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-2" value="2"/>
+                    <label for="future-years-available-2">Within the next 5 years</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-3" value="3"/>
+                    <label for="future-years-available-3">Within the next 5-10 years</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-4" value="4"/>
+                    <label for="future-years-available-4">Within the next 10-20 years</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-5" value="5"/>
+                    <label for="future-years-available-5">Within the next 20-30 years</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-6" value="6"/>
+                    <label for="future-years-available-6">In more than 30 years</label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name="future-years-available" id="future-years-available-7" value="7"/>
+                    <label for="future-years-available-7">I really have no idea</label>
+                </div>
+            </li>
+        </ul>
     </div>
     <br>
     <h3 data-i18n="litw-futuresurvey-question2"></h3>
-    <div id="litw-futuresurvey-question2" class="future-question">
+    <div id="litw-futuresurvey-question2" class="survey-question future-question">
         <!-- <h4 data-i18n="litw-futuresurvey-question1-4"></h4> -->
-        <div class="likert_box">
-            <div class="likert_response">
-                <input type='radio' name='likert6' id='likert6_1' value='1'/>
-                <br/>
-                <label for='likert6_1' data-i18n="litw-futuresurvey-answer2-1"></label>
-            </div>
-            <div class="likert_response">
-                <input type='radio' name='likert6' id='likert6_2' value='2'/>
-                <br/>
-                <label for='likert6_2' data-i18n="litw-futuresurvey-answer2-2"></label>
-            </div>
-            <div class="likert_response">
-                <input type='radio' name='likert6' id='likert6_3' value='3'/>
-                <br/>
-                <label for='likert6_3' data-i18n="litw-futuresurvey-answer2-3"></label>
-            </div>
-            <div class="likert_response">
-                <input type='radio' name='likert6' id='likert6_4' value='4'/>
-                <br/>
-                <label for='likert6_4' data-i18n="litw-futuresurvey-answer2-4"></label>
-            </div>
-            <div class="likert_response">
-                <input type='radio' name='likert6' id='likert6_5' value='5'/>
-                <br/>
-                <label for='likert6_5' data-i18n="litw-futuresurvey-answer2-5"></label>
-            </div>
-        </div>
+        <ul>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name='likert6' id='likert6_1' value='1'/>
+                    <label for='likert6_1' data-i18n="litw-futuresurvey-answer2-1"></label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name='likert6' id='likert6_2' value='2'/>
+                    <label for='likert6_2' data-i18n="litw-futuresurvey-answer2-2"></label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name='likert6' id='likert6_3' value='3'/>
+                    <label for='likert6_3' data-i18n="litw-futuresurvey-answer2-3"></label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name='likert6' id='likert6_4' value='4'/>
+                    <label for='likert6_4' data-i18n="litw-futuresurvey-answer2-4"></label>
+                </div>
+            </li>
+            <li>
+                <div class="likert_response">
+                    <input type='radio' name='likert6' id='likert6_5' value='5'/>
+                    <label for='likert6_5' data-i18n="litw-futuresurvey-answer2-5"></label>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
 
