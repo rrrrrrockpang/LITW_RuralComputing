@@ -32,13 +32,13 @@
                                 },
                                 "demographics-age": {
                                     "title": $.i18n('litw-demographics-age'),
-                                    "required":false,
+                                    "required":true,
                                     "minimum": 18
                                 },
                                 "demographics-gender": {
                                     "title": $.i18n('litw-demographics-gender'),
                                     "enum": ['female', 'male', 'non-binary', 'no-disclosure', 'other'],
-                                    "required":false
+                                    "required":true
                                 },
                                 "demographics-gender-other": {
                                     "title": $.i18n('litw-demographics-gender-other'),
@@ -49,12 +49,12 @@
                                     "enum": ['no-formal-edu', 'incomplete-primary', 'complete-primary',
                                         'incomplete-sec-high', 'complete-sec-high', 'university-no-degree',
                                         'university-degree', 'incomplete-grad-prof', 'complete-grad-prof'],
-                                    "required":false
+                                    "required":true
                                 },
                                 "demographics-culture": {
                                     "title": $.i18n('litw-demographics-country'),
                                     "enum": Object.keys(countries),
-                                    "required":false
+                                    "required":true
                                 },
                                 "demographics-race": {
                                     "title": $.i18n('litw-demographics-race'),
@@ -84,7 +84,20 @@
                                 "demographics-age": {
                                     "type": 'integer',
                                     "fieldClass": "row",
-                                    "showMessages": false
+                                    "showMessages": false,
+                                    "validator": function(callback) {
+                                        let age = this.getValue();
+                                        if(age < 18){
+                                            callback({
+                                                "status": false,
+                                                "message": "You need to be 18+"
+                                            });
+                                            return;
+                                        }
+                                        callback({
+                                            "status": true
+                                        });
+                                    }
                                 },
                                 "demographics-gender": {
                                     "type": 'select',
@@ -128,7 +141,8 @@
                                     "noneLabel": "--",
                                     "removeDefaultNone": false,
                                     "showMessages": false,
-                                    "default": "--"
+                                    "default": "--",
+                                    "allowOptionalEmpty": true
                                 },
                                 "demographics-race": {
                                     "type": 'checkbox',
@@ -160,13 +174,7 @@
                             $('#btn-next-page').attr('style','display:none;');
                             $(".alpaca-required-indicator").html(" *");
                             $("input[type='text']").css('width','200px');
-                            let retake = control.childrenByPropertyId["demographics-retake"];
-                            retake.subscribe(retake, function(val) {
-                                if(val === "yes" || val === "no") {
-                                    $('#btn-next-page').attr('style','display:block;');
-                                } 
-                            })
-    
+                            
                             // AGE RESTRICTION CODE!!!
                             let age = control.childrenByPropertyId["demographics-age"];
                             age.subscribe(age, function(ageValue) {
@@ -199,6 +207,16 @@
                                 this.refresh();
                                 $("input[type='text']").css('width','200px');
                             });
+                        },
+                        "view": {
+                            "callbacks": {
+                                "valid": function(control) {
+                                    $('#btn-next-page').attr('style','display:block;');
+                                },
+                                "invalid": function() {
+                                    $('#btn-next-page').attr('style','display:none;');
+                                }
+                            }
                         }
                      });
             });
