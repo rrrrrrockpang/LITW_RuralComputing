@@ -172,11 +172,12 @@ module.exports = (function() {
 		}
 
 		$.ajax(settings).done(function(response){
+			console.log(response);
 			var score = parseFloat(response['score']).toFixed(4);
 			if(response['label'] === 'NEGATIVE') {
 				score = 1 - score;
 			}
-			sentimentScores[card] = score * 100;
+			sentimentScores[card] = parseFloat(score * 100).toFixed(2);
 			card_data[card + '-sentiment'] = sentimentScores[card];
 			card_data['card_info'] = 'success';
 			console.log(card_data);
@@ -529,13 +530,31 @@ module.exports = (function() {
 	// 	});
 	
 	// };
+
+	getSentimentText = function(score) {
+		if(score < 5) {
+			return "concerned";
+		} else if(score > 95) {
+			return "optimistic";
+		} else {
+			return "neutral";
+		}
+	}
+
 	results = function(commentsData) {
 		LITW.data.submitComments(commentsData);
 		LITW.tracking.recordCheckpoint("results");
 		LITW.utils.showSlide("results");
-
+		
 		$.getJSON("summary.json", function(data) {
 			var view;
+			
+			$("#results").html(resultsTemplate({
+				bff_sentiment: getSentimentText(sentimentScores['card-1']), bff: sentimentScores['card-1'],
+				catalyst_sentiment: getSentimentText(sentimentScores['card-2']), catalyst: sentimentScores['card-2'],
+				forgotten_sentiment: getSentimentText(sentimentScores['card-3']), forgotten: sentimentScores['card-3']
+			}));
+
 			fetch('bar.vg.json')
 				.then(function(res) { return res.json() })
 				.then(function(vlSpec){
@@ -557,7 +576,7 @@ module.exports = (function() {
 				function render(spec) {
 					view = new vega.View(vega.parse(spec), {
 						renderer:  'canvas',  // renderer (canvas or svg)
-						container: '#results',   // parent DOM container
+						container: '#vlcanvas',   // parent DOM container
 						hover:     true       // enable hover processing
 					});
 					return view.runAsync();
@@ -602,8 +621,7 @@ module.exports = (function() {
 
 		$.i18n().load(
 			{
-				'en': 'src/i18n/en.json',
-				'pt-BR': 'src/i18n/pt-br.json'
+				'en': 'src/i18n/en.json'
 			}
 		).done(
 			function(){
