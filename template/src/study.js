@@ -42,10 +42,11 @@ module.exports = (function() {
 	window.litwWithTouch = false;
 
 	window.cardCounter = 0;
-	window.cardWordList = ["null", "first", "second", "third"];
+	window.cardWordList = ["null", "first", "second", "third and final"];
 
 	var timeline = [],
 	cards = ["card-1", "card-2", "card-3"],
+	sentimentScores = {"card-1": 0, "card-2": 0, "card-3": 0},
 	lastCard = "",
 
 	self = this,
@@ -70,6 +71,7 @@ module.exports = (function() {
 
 	irb = function() {
 		LITW.tracking.recordCheckpoint("irb");
+		// $("#irb").html(irbTemplate());
 		$("#irb").html(irbTemplate());
 		$("#irb").i18n();
 		LITW.utils.showSlide("irb");
@@ -151,16 +153,49 @@ module.exports = (function() {
 		LITW.utils.showNextButton(selectCard);
 	}
 
+	getSentiment = function(card, card_data) {
+		console.log(lastCard);
+		var text = $("#" + lastCard + "-textarea").val();
+		console.log(text);
+		// API call to get the sentiment
+		var url = "https://nlp-server-wild.herokuapp.com/sentiment_analysis/?text=" + text;
+		var settings = {
+			'type': "GET",
+			"url": url,
+			"contentType": 'application/json',
+			success: function(data) {
+				console.log("SUCESS....=================");
+			},
+			error: function(error) {
+				console.log("FAIL....=================");
+			}
+		}
+
+		$.ajax(settings).done(function(response){
+			var score = parseFloat(response['score']).toFixed(4);
+			if(response['label'] === 'NEGATIVE') {
+				score = 1 - score;
+			}
+			sentimentScores[card] = score * 100;
+			card_data[card + '-sentiment'] = sentimentScores[card];
+			card_data['card_info'] = 'success';
+			console.log(card_data);
+			LITW.data.submitStudyData(card_data);
+		});
+	}
+
 	submitCardData = function() {
 		var card_data = {}; 
 		var answer = lastCard + "-answer";
 		card_data[lastCard] = lastCard;
 		card_data[answer] = $("#" + lastCard + "-textarea").val();
+		getSentiment(lastCard, card_data);
+		LITW.data.submitStudyData(card_data);
 
-		if(lastCard === "card-1") {
-			var radio_answer = lastCard + "-radio-answer";
-			card_data[radio_answer] = $("#litw-card1-question1 input[name='likert4']:checked").val();
-		} 
+		// if(lastCard === "card-1") {
+		// 	var radio_answer = lastCard + "-radio-answer";
+		// 	card_data[radio_answer] = $("#litw-card1-question1 input[name='likert4']:checked").val();
+		// } 
 
 		// in case we need questions in card-2
 		// else if (lastCard === "card-2") {
@@ -168,7 +203,7 @@ module.exports = (function() {
 		// 	card_data[radio_answer] = $("#litw-card2-question1 input[name='likert5']:checked").val();
 		// }
 
-		LITW.data.submitStudyData(card_data);
+		// LITW.data.submitStudyData(card_data);
 	}
 
 	selectCard = function() {
@@ -212,7 +247,7 @@ module.exports = (function() {
 				if(cards.length > 0) {
 					LITW.utils.showNextButton(selectCard);
 				} else {
-					$("#btn-next-page")
+					$("#btn-next-page").hide();
 					LITW.utils.showNextButton(futureSurvey);
 				}
 				$(".approve-continue").hide();
@@ -477,23 +512,58 @@ module.exports = (function() {
 			.style("stroke-width", 5)
 	}
 
+	// results = function(commentsData) {
+	// 	// Need to restore this
+	// 	LITW.data.submitComments(commentsData);
+	// 	LITW.tracking.recordCheckpoint("results");
+	// 	LITW.utils.showSlide("results");
+	// 	LITW.results.insertFooter();
+
+	// 	$.getJSON( "summary.json", function( data ) {
+	// 		$("#results").html(resultsTemplate({
+	// 			numYear: $("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val(),
+	// 			rating: $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
+	// 		}));
+	// 		createVisualizationForFutureStudy1(data);
+	// 		createVisualizationForFutureStudy2(data);
+	// 	});
+	
+	// };
 	results = function(commentsData) {
-		// Need to restore this
 		LITW.data.submitComments(commentsData);
 		LITW.tracking.recordCheckpoint("results");
 		LITW.utils.showSlide("results");
-		LITW.results.insertFooter();
 
-		$.getJSON( "summary.json", function( data ) {
-			$("#results").html(resultsTemplate({
-				numYear: $("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val(),
-				rating: $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
-			}));
-			createVisualizationForFutureStudy1(data);
-			createVisualizationForFutureStudy2(data);
+		$.getJSON("summary.json", function(data) {
+			var view;
+			fetch('bar.vg.json')
+				.then(function(res) { return res.json() })
+				.then(function(vlSpec){
+					vlSpec["data"]["values"][0]['value'] = sentimentScores['card-1'];
+					vlSpec["data"]["values"][1]['value'] = data['card1']['count'] === 0 ? 0 : data['card1']['sum'] / data['card1']['count'];
+					vlSpec["data"]["values"][2]['value'] = sentimentScores['card-2'];
+					vlSpec["data"]["values"][3]['value'] = data['card2']['count'] === 0 ? 0 : data['card2']['sum'] / data['card2']['count'];
+					vlSpec["data"]["values"][4]['value'] = sentimentScores['card-3'];
+					vlSpec["data"]["values"][5]['value'] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
+				  	
+					for(var i = 0; i < vlSpec['data']['values'].length; i++) {
+						vlSpec['data']['values'][i]['value'] = parseFloat(vlSpec['data']['values'][i]['value']).toFixed(2)
+					}
+					var vgSpec = vegaLite.compile(vlSpec).spec;
+					render(vgSpec);
+					LITW.results.insertFooter();
+				}).catch(console.warn);
+			
+				function render(spec) {
+					view = new vega.View(vega.parse(spec), {
+						renderer:  'canvas',  // renderer (canvas or svg)
+						container: '#results',   // parent DOM container
+						hover:     true       // enable hover processing
+					});
+					return view.runAsync();
+				}
 		});
-	
-	};
+	}
 
 	summaryInitialData = function(json_data){
 		var summary = {};
