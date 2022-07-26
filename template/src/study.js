@@ -339,198 +339,6 @@ module.exports = (function() {
 		return retData;
 	},
 
-	createVisualizationForFutureStudy1 = function(data) {
-		var mean = data['futureSurvey1']['count'] === 0 ? 1 : data['futureSurvey1']['sum'] / data['futureSurvey1']['count'];
-		var selected = parseFloat($("select[name='future-years-available'] option:selected").val());
-
-		var margin = { top: 50, left: 60, right: 60, bottom: 50 };
-		
-		var w = 600 - margin.left - margin.right;
-		var h = 150 - margin.top - margin.bottom;
-
-		var xScale = d3.scale.linear()
-			.domain([0, 51])
-			.range([0, w])
-		
-		var svg = d3.select("#vis_anchor_1")
-			.append("svg")
-			.attr("width", w + margin.left + margin.right)
-			.attr("height", h + margin.top + margin.bottom)
-			.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-		//gradient color
-		var grad = svg.append("defs")
-			.append("linearGradient")
-			.attr({
-				"id" : "grad",
-				"x1" : "0%",
-				"x2" : "100%",
-				"y1" : "0%",
-				"y2" : "0%"
-			});
-		
-		grad.append("stop")
-			.attr("offset", "30%")
-			.style("stop-color", "#FF6200");
-		
-		grad.append("stop")
-			.attr("offset", "70%")
-			.style("stop-color", "#FDB777");
-		
-		// draw a rectangle
-		var rect = svg
-			.append("rect")
-			.attr("x", 0)
-			.attr("y", 0)
-			.attr("height", 50)
-			.attr("width", w)
-			.style("fill", "url(#grad)")
-		
-		// draw where the line is
-		var meanLine = svg.append('g');
-		meanLine
-			.append("rect")
-			.attr("x", mean * w / 51 - 5)
-			.attr("y", -5)
-			.attr("height", 60)
-			.attr("width", 10)
-			.style({
-				"fill": "white",
-				"stroke": "black",
-				"stroke-width": "1px",
-			});
-		meanLine
-			.append('text')
-			.attr('class', 'barsEndlineText')
-			.attr('text-anchor', 'middle')
-			.attr("x", mean * w / 51 - 5)
-			.attr("y", 75)
-			.text('Average Year: ' + String(mean.toFixed(2)));
-
-		var responseLine = svg.append('g');
-		var triangle = d3.svg.symbol().type("triangle-down");
-
-		responseLine.append("path")
-			.attr('d', triangle)
-			.attr("stroke", "green")
-			.attr("fill", "black")
-			.attr("transform", "translate(" + (xScale(selected)) + ", 0)")
-
-		responseLine
-			.append('text')
-				.attr('class', 'barsEndlineText')
-				.attr('text-anchor', 'middle')
-				.attr("x", xScale(selected))
-				.attr("y", -12)
-				.text('Your Prediction');
-
-	}
-
-	createVisualizationForFutureStudy2 = function(data) {
-		var userAnswer = parseInt($("#litw-futuresurvey-question2 input[name='likert6']:checked").val());
-		var dataset = wrangleSummaryData(data, userAnswer);		
-
-		var margin = { top: 5, left: 60, right: 60, bottom: 12 };
-		
-		var w = 600 - margin.left - margin.right;
-		var h = 150 - margin.top - margin.bottom;
-
-		var stack = d3.layout.stack();
-		stack(dataset);
-
-		var xScale = d3.scale.linear()
-			.domain([0, d3.max(dataset, function (d) {
-				return d3.max(d, function (d) {
-					return d.y0 + d.y;
-				});
-			})]) // default domain
-			.range([0, w]);
-
-		var colors = d3.scale.ordinal()
-			.range(["#FF6200", "#FD7F2C", "#FD9346", "#FDA766", "#FDB777"]);
-		
-		var svg = d3.select("#vis_anchor_2")
-			.append("svg")
-			.attr("width", w + margin.left + margin.right)
-			.attr("height", h + margin.top + margin.bottom)
-			.append("g")
-			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-		// Add a group for each row of data
-		var groups = svg.selectAll("g")
-			.data(dataset)
-			.enter()
-			.append("g")
-			.style("fill", function (d, i) { return colors(i); });
-
-		// Add a rect for each data value
-		var rects = groups.selectAll("rect")
-			.data(function (d) { return d; })
-			.enter()
-			.append("rect")
-			.attr("x", function (d) { return xScale(d.y0); })
-			.attr("y", 30)
-			.attr("height", 50)
-			.attr("width", function (d) { return xScale(d.y); });
-
-		var text = groups.append("g")
-			.selectAll("text")
-			.data(function (d) { return d; })
-		  	.enter()
-		 	.append("text")
-			.attr("class", "text")
-			.attr("x", function (d) { return xScale(d.y0) + (xScale(d.y) / 2) - 10; })
-			.attr("y", function (d) {
-				if(d.scale === 1 || d.scale === 3 || d.scale === 5) {
-					return 30 + 50 + 13;
-				} else {
-					return 24;
-				}
-			})
-			.text(function(d) { return d.text; })
-			.style("font-size", "10px");
-			
-		var selectedDataPoint = "";
-		for(var i = 1; i <= 5; i++) {
-			if(dataset[i-1][0]["scale"] === userAnswer) {
-				selectedDataPoint = dataset[i-1][0];
-			} 
-		}
-
-		// default if not selected. sanity check
-		if(selectedDataPoint === "") {
-			selectedDataPoint = dataset[2][0];
-		}
-
-		var highlight = svg.append("rect")
-			.attr("x", xScale(selectedDataPoint['y0']))
-			.attr("y", 30)
-			.attr("width", xScale(selectedDataPoint['y']))
-			.attr("height", 50)     
-			.style("fill", "transparent")
-			.style("stroke", "black")
-			.style("stroke-width", 5)
-	}
-
-	// results = function(commentsData) {
-	// 	// Need to restore this
-	// 	LITW.data.submitComments(commentsData);
-	// 	LITW.tracking.recordCheckpoint("results");
-	// 	LITW.utils.showSlide("results");
-	// 	LITW.results.insertFooter();
-
-	// 	$.getJSON( "summary.json", function( data ) {
-	// 		$("#results").html(resultsTemplate({
-	// 			numYear: $("#litw-futuresurvey-question1 input[name='future-years-available']:checked").val(),
-	// 			rating: $("#litw-futuresurvey-question2 input[name='likert6']:checked").val()
-	// 		}));
-	// 		createVisualizationForFutureStudy1(data);
-	// 		createVisualizationForFutureStudy2(data);
-	// 	});
-	
-	// };
-
 	getSentimentText = function(score) {
 		if(score < 5) {
 			return "concerned";
@@ -558,16 +366,22 @@ module.exports = (function() {
 			fetch('bar.vg.json')
 				.then(function(res) { return res.json() })
 				.then(function(vlSpec){
-					vlSpec["data"]["values"][0]['value'] = sentimentScores['card-1'];
-					vlSpec["data"]["values"][1]['value'] = data['card1']['count'] === 0 ? 0 : data['card1']['sum'] / data['card1']['count'];
-					vlSpec["data"]["values"][2]['value'] = sentimentScores['card-2'];
-					vlSpec["data"]["values"][3]['value'] = data['card2']['count'] === 0 ? 0 : data['card2']['sum'] / data['card2']['count'];
-					vlSpec["data"]["values"][4]['value'] = sentimentScores['card-3'];
-					vlSpec["data"]["values"][5]['value'] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
-				  	
-					for(var i = 0; i < vlSpec['data']['values'].length; i++) {
-						vlSpec['data']['values'][i]['value'] = parseFloat(vlSpec['data']['values'][i]['value']).toFixed(2)
-					}
+					vlSpec["datasets"]["medians"][0]["median"] = data['card1']['count'] === 0 ? 0 : data['card1']['sum'] / data['card1']['count'];
+					vlSpec["datasets"]["values"][0]["value"] = sentimentScores['card-1'];
+					vlSpec["datasets"]["medians"][1]["median"] = data['card2']['count'] === 0 ? 0 : data['card2']['sum'] / data['card2']['count'];
+					vlSpec["datasets"]["values"][1]["value"] = sentimentScores['card-2'];
+					vlSpec["datasets"]["medians"][2]["median"] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
+					vlSpec["datasets"]["values"][2]["value"] = sentimentScores['card-3'];
+					// vlSpec["data"]["values"][0]['value'] = sentimentScores['card-1'];
+					// vlSpec["data"]["values"][1]['value'] = data['card1']['count'] === 0 ? 0 : data['card1']['sum'] / data['card1']['count'];
+					// vlSpec["data"]["values"][2]['value'] = sentimentScores['card-2'];
+					// vlSpec["data"]["values"][3]['value'] = data['card2']['count'] === 0 ? 0 : data['card2']['sum'] / data['card2']['count'];
+					// vlSpec["data"]["values"][4]['value'] = sentimentScores['card-3'];
+					// vlSpec["data"]["values"][5]['value'] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
+				  	console.log(vlSpec);
+					// for(var i = 0; i < vlSpec['data']['values'].length; i++) {
+					// 	vlSpec['data']['values'][i]['value'] = parseFloat(vlSpec['data']['values'][i]['value']).toFixed(2)
+					// }
 					var vgSpec = vegaLite.compile(vlSpec).spec;
 					render(vgSpec);
 					LITW.results.insertFooter();
