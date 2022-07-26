@@ -5,28 +5,30 @@ function summary($json_data) {
 	$data = json_decode($json_data,true);
 	
 	$surveyResults = array(
-		'futureSurvey1'=>array('sum'=>0, "count"=>0),
-		'futureSurvey2'=>array(1=>0, 2=>0, 3=>0, 4=>0, 5=>0)
+		'card1'=>array('sum'=>0, "count"=>0),
+		'card2'=>array('sum'=>0, "count"=>0),
+		'card3'=>array('sum'=>0, "count"=>0)
 	);
 
 	foreach ($data as $response) {
-		if(array_key_exists('future_1_answer', $response)) {
-			$futureSurvey1Response = $response['future_1_answer'];
-			$surveyResults['futureSurvey1']['sum'] += intval($futureSurvey1Response);
-			$surveyResults['futureSurvey1']['count']++;
+		if(array_key_exists('card-1', $response)) {
+			$card1 = $response['card-1-sentiment'];
+			$surveyResults['card1']['sum'] += floatval($card1);
+			$surveyResults['card1']['count']++;
 		}
-		
-		if(array_key_exists('future_2_answer', $response)) {
-			for($i=0; $i<=5;$i++) {
-				$futureSurvey2Response = $response['future_2_answer'];
-				if(intval($futureSurvey2Response) === $i) {
-					$surveyResults['futureSurvey2'][$i]++;
-					break;
-				}
-			}
+
+		if(array_key_exists('card-2', $response)) {
+			$card2 = $response['card-2-sentiment'];
+			$surveyResults['card2']['sum'] += floatval($card2);
+			$surveyResults['card2']['count']++;
 		}
-	}
-	
+
+		if(array_key_exists('card-3', $response)) {
+			$card3 = $response['card-3-sentiment'];
+			$surveyResults['card3']['sum'] += floatval($card3);
+			$surveyResults['card3']['count']++;
+		}
+	}	
 	return json_encode($surveyResults);
 }
 
