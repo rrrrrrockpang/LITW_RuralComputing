@@ -26,6 +26,7 @@ var resultsTemplate = require("../templates/results.html");
 var motivationSurveyTemplate = require("../templates/motivationSurvey.html");
 var futureSurveyTemplate = require("../templates/futureSurvey.html");
 var videoTemplate = require("../templates/video.html");
+var commentsTemplate = require("../templates/comments.html");
 
 var card1Template = require("../templates/card-1.html");
 var card2Template = require("../templates/card-2.html");
@@ -292,51 +293,11 @@ module.exports = (function() {
 		submitFutureStudy();
 
 		$("#progress-header").hide();
+		LITW.tracking.recordCheckpoint("comments");
+		$("#comments").html(commentsTemplate());
+		$("#comments").i18n();
 		LITW.utils.showSlide("comments");
-		LITW.comments.showCommentsPage(results);
-	},
-
-	wrangleSummaryData = function(data, userAnswer) {
-		var fs = data["futureSurvey2"];
-		console.log(fs);
-		var retData = [];
-		// Total number of participants
-		var total = 0; 
-
-		for(var i in fs) {
-			if(userAnswer == i) {
-				data["futureSurvey2"][i]++;
-			}
-			total += fs[i]
-		}
-
-		console.log(data);
-
-		var x1 = total === 0 ? 20 : data["futureSurvey2"]["1"]; 
-		var x2 = total === 0 ? 20 : data["futureSurvey2"]["2"];
-		var x3 = total === 0 ? 20 : data["futureSurvey2"]["3"];
-		var x4 = total === 0 ? 20 : data["futureSurvey2"]["4"];
-		var x5 = total === 0 ? 20 : data["futureSurvey2"]["5"];
-
-		console.log(x1);
-
-		var text1 = total !== 0 ? String(Math.round((x1 / total) * 100).toFixed(2)) : "20";
-		var text2 = total !== 0 ? String(Math.round((x2 / total) * 100).toFixed(2)) : "20";
-		var text3 = total !== 0 ? String(Math.round((x3 / total) * 100).toFixed(2)) : "20";
-		var text4 = total !== 0 ? String(Math.round((x4 / total) * 100).toFixed(2)) : "20";
-		var text5 = total !== 0 ? String(Math.round((x5 / total) * 100).toFixed(2)) : "20";
-
-		total = total === 0 ? 100 : total;
-
-		var retData = [
-			[{ "scale": 1, "y": x1, "text": "1 (" + text1 + "%)", "total": total }], 
-			[{ "scale": 2, "y": x2, "text": "2 (" + text2 + "%)", "total": total }], 
-			[{ "scale": 3, "y": x3, "text": "3 (" + text3 + "%)", "total": total }], 
-			[{ "scale": 4, "y": x4, "text": "4 (" + text4 + "%)", "total": total }], 
-			[{ "scale": 5, "y": x5, "text": "5 (" + text5 + "%)", "total": total }], 
-		];
-
-		return retData;
+		LITW.utils.showNextButton(results);
 	},
 
 	getSentimentText = function(score) {
@@ -349,7 +310,8 @@ module.exports = (function() {
 		}
 	}
 
-	results = function(commentsData) {
+	results = function() {
+		var commentsData = $('#commentsForm').alpaca().getValue();
 		LITW.data.submitComments(commentsData);
 		LITW.tracking.recordCheckpoint("results");
 		LITW.utils.showSlide("results");
@@ -422,7 +384,7 @@ module.exports = (function() {
 		window.litwWithTouch = ("ontouchstart" in window);
 
 		// determine and set the study language
-		//$.i18n().locale = i18n.getLocale();
+		$.i18n().locale = i18n.getLocale();
 
 		$.i18n().load(
 			{
