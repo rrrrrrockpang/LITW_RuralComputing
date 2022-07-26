@@ -372,16 +372,7 @@ module.exports = (function() {
 					vlSpec["datasets"]["values"][1]["value"] = sentimentScores['card-2'];
 					vlSpec["datasets"]["medians"][2]["median"] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
 					vlSpec["datasets"]["values"][2]["value"] = sentimentScores['card-3'];
-					// vlSpec["data"]["values"][0]['value'] = sentimentScores['card-1'];
-					// vlSpec["data"]["values"][1]['value'] = data['card1']['count'] === 0 ? 0 : data['card1']['sum'] / data['card1']['count'];
-					// vlSpec["data"]["values"][2]['value'] = sentimentScores['card-2'];
-					// vlSpec["data"]["values"][3]['value'] = data['card2']['count'] === 0 ? 0 : data['card2']['sum'] / data['card2']['count'];
-					// vlSpec["data"]["values"][4]['value'] = sentimentScores['card-3'];
-					// vlSpec["data"]["values"][5]['value'] = data['card3']['count'] === 0 ? 0 : data['card3']['sum'] / data['card3']['count'];		
-				  	console.log(vlSpec);
-					// for(var i = 0; i < vlSpec['data']['values'].length; i++) {
-					// 	vlSpec['data']['values'][i]['value'] = parseFloat(vlSpec['data']['values'][i]['value']).toFixed(2)
-					// }
+					
 					var vgSpec = vegaLite.compile(vlSpec).spec;
 					render(vgSpec);
 					LITW.results.insertFooter();
