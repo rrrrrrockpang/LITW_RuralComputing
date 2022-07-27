@@ -319,7 +319,17 @@ module.exports = (function() {
 		$.getJSON("summary.json", function(data) {
 			var view;
 			
+			var tmpSentiments = [sentimentScores['card-1'], sentimentScores['card-2'], sentimentScores['card-3']];
+			var posCount = 0;
+			for(var i = 0; i < tmpSentiments.length; i++) {
+				if(tmpSentiments[i] > 0.5) {
+					posCount += 1;
+				}
+			}
+
+			var technoText = posCount > 1 ? "techno-utopianist" : "techno-skeptic";
 			$("#results").html(resultsTemplate({
+				technoText: technoText,
 				bff_sentiment: getSentimentText(sentimentScores['card-1']), bff: sentimentScores['card-1'],
 				catalyst_sentiment: getSentimentText(sentimentScores['card-2']), catalyst: sentimentScores['card-2'],
 				forgotten_sentiment: getSentimentText(sentimentScores['card-3']), forgotten: sentimentScores['card-3']
