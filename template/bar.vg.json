@@ -1,6 +1,6 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": ["How likely are you techno-utopianist on life aspects", "including relationship, culture, and inclusivity?"],
+  "title": ["Where are you on the techno-skeptic to techno-utopian scale?"],
   "datasets": {
     "medians": [
       {"name":"Relationship", "median":0.6, "lo": "techno-skeptic", "hi": "techno-utopianist"},
