@@ -1,31 +1,9 @@
-<!-- Template for instructions page
-
-<h2 class="bolded-blue" data-i18n="litw-instruct-header"></h2>
-
-	<p data-i18n="litw-instruct-body-1-p1"></p>
-
-<div class="instructions-stim-container">
-	<img src="img/stim-img/cat1.jpg" />
-	<img src="img/stim-img/cat2.jpg" />
-</div>
-
-{{#if withTouch}}
-	<p data-i18n="litw-instruct-body-2-p1-touch"></p>
-	<p class="bolded-blue" data-i18n="litw-instruct-body-2-p2-touch"></p>
-{{else}}
-    <p data-i18n="litw-instruct-body-2-p1"></p>
-    <p class="bolded-blue" data-i18n="litw-instruct-body-2-p2"></p>
-{{/if}}
--->
-
-<!--Template for the pre-trial break page -->
-
 <script>
     $(document).ready(function(){
         $(".card").each(function(e) {
 
         setTimeout(function() {
-            $(".card").eq(e).attr("class", "card ani" + e);
+            $(".card").eq(e).attr("class", "card ani" + e % 3);
             }, e * 150)        
         });
     })
@@ -33,18 +11,17 @@
 
 <h2 class="bolded-blue" data-i18n='instruction-header'></h2>
 
-<p data-i18n="cards-prompt"></p>
+<span>
+    <p data-i18n="cards-prompt"></p>
+    <p><strong data-i18n="litw-instruction-next-step"></strong></p>
+</span>
 
-<div>
-    <div class="list">
-        <li class="card">
-            <img style="border-radius: 20px;" src="img/stim-img/bffs.png"/>
-        </li>
-        <li class='card'>
-            <img style="border-radius: 20px;" src="img/stim-img/catalyst.png"/>
-        </li>
-        <li class='card'>
-            <img style="border-radius: 20px;" src="img/stim-img/forgotten.png"/>
-        </li>
+
+<!-- Create a thing -->
+<div class="container">
+    <div class="col-md-12 px-0" style="text-align:center">
+        <img class="img-responsive" style="border-radius: 20px;" src="img/stim-img/full.png"/>
+        <figcaption>Tarot Cards of Tech by the Artefact Group. <a href="http://tarotcardsoftech.artefactgroup.com/" target="_blank">[Link]</a></figcaption>
     </div>
 </div>
+<br>

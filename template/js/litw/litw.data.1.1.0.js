@@ -1,48 +1,58 @@
 /*************************************************************
- * litw.data.noapi.0.1.js
+ * litw.data.1.1.0js
  *
- * Contains functions for writing study data via a simple
- * PHP set of calls.
+ * Contains functions for writing LITW Study data operations
+ * using the LITW REST API
  *
  * Dependencies: jQuery
  *
  * Author: LabintheWild DEV crew
  *
- * © Copyright 2018 LabintheWild
+ * © Copyright 2021 LabintheWild
  * For questions about this file and permission to use
  * the code, contact us at info@labinthewild.org
  *************************************************************/
 
-(function( exports ) {
+ (function( exports ) {
     "use strict";
 
-    var version = 0.1,
+    var version = '1.1.0',
         params = {
+            _isInitialized: false,
             participantId: 0,
             ipCountry: "not_fetched_or_initialized",
             ipCity: "not_fetched_or_initialized",
-            _isInitialized: false
+            userAgent: "not_fetched_or_initialized"
         },
 
         initialize = function() {
-            var litw_locale = LITW.locale.getLocale() || "";
+            let litw_locale = LITW.locale.getLocale() || "";
 
             if (!params._isInitialized) {
-                params.participantId = uuidv4();
                 params._isInitialized = true;
-
-                $.getJSON('//freegeoip.net/json/?callback=?', function(data) {
+                params.participantId = uuidv4();
+                params.userAgent = navigator.userAgent;
+                params.url = getRequestParams();
+                let geoip_url = 'https://www.labinthewild.org/include/geoip.php';
+                return $.getJSON(geoip_url, function(data) {
                     params.ipCity = data.city;
-                    params.ipCountry = data.country_name;
+                    params.ipCountry = data.country;
                 }).always(function() {
-                    var data = {
-                       contentLanguage: litw_locale,
-                       city: params.ipCity,
-                       country: params.ipCountry
+                    let data = {
+                        contentLanguage: litw_locale,
+                        city: params.ipCity,
+                        country: params.ipCountry,
+                        userAgent: params.userAgent,
+                        urlParams: params.url
                     };
                     submitData(data,"litw:initialize");
                 });
             }
+        },
+
+        getRequestParams = function () {
+            let urlSearchParams = new URLSearchParams(window.location.search);
+            return Object.fromEntries(urlSearchParams.entries());
         },
 
         uuidv4 = function() {
@@ -51,13 +61,13 @@
         },
 
         submitComments = function(data) {
-            submitData(data,"study:comments")
+            submitData(data,"study_client:comments")
         },
         submitDemographics = function(data) {
-            submitData(data,"study:demographics")
+            submitData(data,"study_client:demographics")
         },
         submitStudyData = function(data) {
-            submitData(data,"study:data")
+            submitData(data,"study_client:data")
         },
         submitData = function(data, dataType) {
             if (!params._isInitialized) {
@@ -79,16 +89,21 @@
         isInitialized = function() {
             return params._isInitialized;
         },
+        getURLparams = function () {
+            return params.url;
+        },
 
         _submit = function(obj_data, finalAttempt) {
-//            console.log(JSON.stringify(obj_data));
-            $.post("include/save_data.php", JSON.stringify(obj_data) )
-                .fail(function(e) {
-                    console.log(e);
-                    if (!finalAttempt) {
-                        _submit(obj_data, true);
-                    }
-                });
+            //console.log(JSON.stringify(obj_data));
+            $.ajax({
+                url: 'include/save_data.php',
+                type: 'POST',
+                data: JSON.stringify(obj_data),
+            }).fail(function(e) {
+                if (!finalAttempt) {
+                    _submit(obj_data, true);
+                }
+            });
         }
 
     /**** PUBLIC METHODS ****/
@@ -101,6 +116,7 @@
     exports.data.getParticipantId = getParticipantId;
     exports.data.getCountry = getCountry;
     exports.data.getCity = getCity;
+    exports.data.getURLparams = getURLparams;
     exports.data.isInitialized = isInitialized;
 
 })( window.LITW = window.LITW || {} );

@@ -3,13 +3,12 @@
         $('.flipcard').toggleClass('flipped');
     })
     var paragraph = document.getElementById("cardHeader2");
-    var text = document.createTextNode("Click on the card below to draw your " + cardWordList[cardCounter]);
+    var text = document.createTextNode("Here is your " + cardWordList[cardCounter] + " card");
     paragraph.appendChild(text);
-    paragraph.appendChild(document.createTextNode(" Tarot Card of Tech. You can answer the questions in the text box below."));
 </script>
 
 <h2 class='bolded-blue' id="cardHeader2"></h2>
-<p class="irb-paragraph-body" data-i18n="card-header-2"></p>
+<p data-i18n="card-header-2"><strong>Click on the card below</strong> to see what the card has in store for you. Then use the box below to write down your thoughts. Remember, the tarot cards are designed to guide your thoughts and help you reflect on the future of technology.</p>
 
 <div>
     <div style="text-align: center">

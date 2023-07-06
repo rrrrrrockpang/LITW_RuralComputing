@@ -4,14 +4,12 @@
     })
 
     var paragraph = document.getElementById("cardHeader");
-    var text = document.createTextNode("Click on the card below to draw your " + cardWordList[cardCounter]);
+    var text = document.createTextNode("Here is your " + cardWordList[cardCounter] + " card");
     paragraph.appendChild(text);
-    paragraph.appendChild(document.createTextNode(" Tarot Card of Tech. You can answer the questions in the text box below."));
-    
 </script>
 
 <h2 class='bolded-blue' id="cardHeader"></h2>
-<p class="irb-paragraph-body" data-i18n="card-header-2"></p>
+<p data-i18n="card-header-2"><strong>Click on the card below</strong> to see what the card has in store for you. Then use the box below to write down your thoughts. Remember, the tarot cards are designed to guide your thoughts and help you reflect on the future of technology.</p>
 
 <div>
     <div style="text-align: center">
@@ -29,19 +27,18 @@
     <br>
     <div>
         <textarea id='card-1-textarea' style="padding: 15px;
-            font-size: 14px;
-            font-family: Optima, Arial, sans-serif;
-            width: 560px;
-            height: 140px;
-            color: #999;
-            display: block;
-            margin: 0 auto;">
-        </textarea>
+	font-size: 14px;
+	font-family: Optima, Arial, sans-serif;
+	width: 560px;
+	height: 140px;
+	color: #999;
+	display: block;
+	margin: 0 auto;"></textarea>
     </div>    
 
     <br>
 
-    <div id="litw-card1-question1">
+    <!-- <div id="litw-card1-question1">
         <h4>To what extent do you think XR technology will enhance/detract your relationships with your friends and family in 10 years?</h4>
 
         <div class="likert_box">
@@ -75,7 +72,7 @@
                 <label for='likert4_5' data-i18n="litw-card1-answer1-5">Will significantly enhance relationships</label>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </div>
 

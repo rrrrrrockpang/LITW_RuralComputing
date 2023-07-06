@@ -1,38 +1,28 @@
 
 <!-- Template for the results page -->
-<h2 class="bolded-blue">How does your answer compare with others?</h2>
+<h2 class="bolded-blue">You are more of a {{ technoText }}</h2>
 
 <p data-i18n="litw-results-p1">Thank you for completing the study.</p>
 
-<div id="result-future-question" style="display:block;margin-left:auto">
-  <!-- Vis for question 1 -->
-  <label>
-    <span>
-      <p data-i18n="litw-results-q1-vis-label">
-        You predicted that mixed reality will be adopted in your home country in <strong>{{ numYear }}</strong>
-      </p>
-    </span>  
-  </label>
-  <div id="vis_anchor_1"></div>
-  
-  <!-- Vis for question 2 -->
-  <label>
-    <span>
-      <p data-i18n="litw-results-q2-vis-label">
-        Do you think that future mixed reality technology will cause more harm than good? Your rating is: <strong>{{ rating }}</strong>
-      </p>
-    </span>  
-  </label>
-  <div id="vis_anchor_2"></div>
-</div>
+<div id="vlcanvas"></div>
 
+<div>
+  <h4>How to interpret the plot?</h4>
+  We analyzed your <a href='https://en.wikipedia.org/wiki/Sentiment_analysis' _target='blank'>sentiments</a> based on your answer using natural language processing algorithms. 
+  The higher the probability (y-axis) is, the more positive/optimistic your sentiment is, and the more likely you are techno-utopianist in that life aspect.
+  Overall, you seem {{ bff_sentiment }} about mixed reality in dealing with personal relationship with a {{ bff }} sentiment score. 
+  You seem {{ catalyst_sentiment }} about how mixed reality would change your cultural habit with a {{ catalyst }} sentiment score. 
+  You seem {{ forgotten_sentiment }} about how mixed reality would be inclusive with a {{ forgotten }} sentiment score.
+
+  Disclaimer: We predicted your sentiment based on your input text. We chose only 3 Tarot Cards of Tech. That should not limit what you think of the future mixed reality technology.
+</div>
 <hr> 
 
-<h2 class="bolded-blue" data-i18n="litw-results-p2">Here's what experts have predicted about augmented, virtual, and mixed reality: </h2>
+
+<h2 class="bolded-blue" data-i18n="litw-results-p2">Here are what experts predicted about the mixed reality technology. </h2>
 
 <!-- Container for the image gallery -->
 <div class="container">
-
   <!-- Full-width images with number text -->
   <div class="mySlides">
     <div class="numbertext">1 / 6</div>
@@ -100,6 +90,7 @@
 
 <br>
 
+<hr> 
 <div id="results-footer"></div>
 
 <script>

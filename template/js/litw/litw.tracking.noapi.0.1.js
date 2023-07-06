@@ -11,7 +11,7 @@
  * the code, contact us at info@labinthewild.org
  *************************************************************/
 
-(function( exports ) {
+ (function( exports ) {
 	"use strict";
 
 	var version = 0.1,

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": ["Where are you on the techno-skeptic to techno-utopian scale?"],
+  "datasets": {
+    "medians": [
+      {"name":"Relationship", "median":0.6, "lo": "techno-skeptic", "hi": "techno-utopianist"},
+      {"name":"Culture", "median":0.2, "lo": "techno-skeptic", "hi": "techno-utopianist"},
+      {"name":"Inclusivity", "median":0.6, "lo": "techno-skeptic", "hi": "techno-utopianist"}
+    ],
+    "values": [
+      {"name":"Relationship", "value":0.1},
+      {"name":"Culture", "value":0.1},
+      {"name":"Inclusivity", "value":0.1}
+    ]
+  },
+  "data": {"name": "medians"},
+  "width": 250,
+  "height": 175,
+  "padding": 5,
+  "encoding": {
+    "y": {
+      "field": "name",
+      "type": "nominal",
+      "sort": null,
+      "axis": {
+        "domain": false,
+        "offset": 100,
+        "labelFontWeight": "bold",
+        "ticks": false,
+        "grid": true,
+        "title": null
+      }
+    },
+    "x": {
+      "type": "quantitative",
+      "scale": {"domain": [0, 100]},
+      "axis": {"grid": false, "title": null}
+    }, 
+    "color": {
+      "type": "nominal",
+      "scale": {"domain": ["Your Score", "Participant Average Score"], "range": ["red", "grey"]}
+    }
+  },
+  "view": {"stroke": null},
+  "layer": [
+    {
+      "mark": "bar",
+      "encoding": {
+        "fill": {"value": {
+          "x1": 0.0,
+          "y1": 0.0,
+          "x2": 1.0,
+          "y2": 0.0,
+          "gradient": "linear",
+          "stops": [
+            {"color": "white", "offset": 0.0},
+            {"color": "#2beda9", "offset": 1.0}
+          ]
+        }}
+      }
+    },
+    {
+      "mark": "tick",
+      "data": {"name": "values"},
+      "encoding": {
+        "x": {
+          "field": "value"
+        },
+        "color": {"datum": "Your Score"}
+      }
+    },
+    {
+      "mark": "tick",
+      "encoding": {
+        "x": {"field": "median"},
+        "color":  {"datum": "Participant Average Score"}
+      }
+    },
+    {
+      "mark": {"type": "text", "x": -5, "align": "right"},
+      "encoding": {
+        "text": {"field": "lo"}
+      }
+    },
+    {
+      "mark": {"type": "text", "x": 255, "align": "left"},
+      "encoding": {
+        "text": {"field": "hi"}
+      }
+    }
+  ],
+  "config": {
+    "tick": {
+      "thickness": 5,
+      "bandSize": 40
+    }, 
+    "legend": {"orient": "bottom", "layout": {"bottom": {"anchor": "middle"}}, "symbolType": "square"}
+  }
+}
+
